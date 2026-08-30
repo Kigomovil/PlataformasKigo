@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIGO | Plataformas en Acción</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:#070709;color:white}
+header{position:sticky;top:0;z-index:10;background:rgba(7,7,9,.8);backdrop-filter:blur(16px);border-bottom:1px solid #1f1f23;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;letter-spacing:-1px;font-size:22px} .logo span{color:#f59e0b}
+.search{width:100%;max-width:420px;background:#141416;border:1px solid #26262a;border-radius:12px;padding:12px 14px;color:white;outline:none}
+.hero{padding:50px 20px;text-align:center}
+.hero h1{font-size:42px;letter-spacing:-2px;line-height:0.95} .hero p{color:#9ca3af;max-width:560px;margin:14px auto;font-size:15px;line-height:1.5}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.f{padding:8px 16px;border-radius:999px;background:#141416;border:1px solid #26262a;color:#9ca3af;font-size:13px;font-weight:600;cursor:pointer} .f.active{background:white;color:black;border-color:white}
+.grid{max-width:1200px;margin:0 auto;padding:10px 16px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:linear-gradient(180deg,#16161a,#101013);border:1px solid #232326;border-radius:20px;overflow:hidden;transition:.2s;position:relative}
+.card:hover{transform:translateY(-4px);border-color:#333}
+.thumb{height:180px;background:#111;position:relative;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;opacity:.9}
+.badge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.15)}
+.content{padding:16px}
+.content h3{font-size:18px;letter-spacing:-0.3px} .content p{color:#9ca3af;font-size:13px;line-height:1.4;margin:8px 0 14px;height:38px;overflow:hidden}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.meta span{font-size:11px;background:#1c1c20;border:1px solid #2a2a30;padding:5px 9px;border-radius:999px;color:#d1d5db}
+.actions{display:flex;gap:8px}
+.btn{flex:1;height:44px;border-radius:12px;border:0;font-weight:800;font-size:14px;cursor:pointer}
+.btn-primary{background:white;color:black} .btn-sec{background:#1e1e22;color:white;border:1px solid #2a2a30}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modalBox{width:100%;max-width:900px;background:#121214;border:1px solid #2a2a30;border-radius:20px;overflow:hidden}
+.modalHead{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #232326}
+.modalBody{display:grid;grid-template-columns:1.3fr .7fr;height:520px}
+.iframe{width:100%;height:100%;border:0;background:white}
+.side{padding:18px;background:#0e0e10;border-left:1px solid #232326;overflow:auto}
+.side h4{font-size:14px;margin-bottom:8px} .cred{background:#18181b;border:1px solid #2a2a30;border-radius:12px;padding:12px;margin:10px 0;font-size:13px}
+@media(max-width:800px){.modalBody{grid-template-columns:1fr;height:auto} .iframe{height:380px} header{flex-direction:column;gap:12px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">KIGO <span>SHOWROOM</span></div>
+<input id="search" class="search" placeholder="Buscar plataforma: hotel, recargas, restaurante...">
+</header>
+
+<div class="hero">
+<h1>Todas tus plataformas<br>en un solo lugar</h1>
+<p>Muestra real a clientes. Entran, ven y prueban. Sin hablar mucho. Deja que el producto venda solo.</p>
+<div class="filters" id="filters">
+<div class="f active" data-f="todo">Todo</div>
+<div class="f" data-f="hotel">Hoteles</div>
+<div class="f" data-f="recargas">Recargas</div>
+<div class="f" data-f="restaurante">Restaurante</div>
+<div class="f" data-f="delivery">Delivery</div>
+</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal" id="modal">
+<div class="modalBox">
+<div class="modalHead"><b id="mTitle">Demo</b><button onclick="closeModal()" style="background:#222;color:white;border:0;width:36px;height:36px;border-radius:10px">✕</button></div>
+<div class="modalBody">
+<iframe id="mFrame" class="iframe"></iframe>
+<div class="side">
+<h4>¿Qué estás viendo?</h4>
+<p id="mDesc" style="color:#9ca3af;font-size:13px;line-height:1.5"></p>
+<div class="cred"><b>Usuario demo:</b> <span id="mUser">demo@kigo.com</span><br><b>Clave:</b> <span id="mPass">demo123</span><br><br><button id="mGo" class="btn btn-primary" style="width:100%">ABRIR PLATAFORMA COMPLETA →</button></div>
+<div style="margin-top:12px;color:#6b7280;font-size:11px">Tip: Puedes crear un link directo tipo kigo.show/demo/hotel para mandar por WhatsApp.</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const plataformas=[
+{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Sistema completo de reservas, check-in, pagos y administración para hoteles de Dolores.', tags:['Reservas','Pagos','Admin'], img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', demo:'https://hotel.kigo.demo', user:'hotel@demo.com', pass:'hotel2026' },
+{ id:2, cat:'recargas', nombre:'KIGO RECARGAS', desc:'Plataforma de recargas Telcel, Bait, Movistar con saldo mayorista y comisiones automáticas.', tags:['API','SPEI','Comisiones'], img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', demo:'https://recargas.kigo.demo', user:'recarga@demo.com', pass:'recarga123' },
+{ id:3, cat:'restaurante', nombre:'KIGO RESTO', desc:'Menú QR, comandas, cocina y delivery integrado para restaurantes.', tags:['QR Menu','Cocina','Delivery'], img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', demo:'https://resto.kigo.demo', user:'resto@demo.com', pass:'resto123' },
+{ id:4, cat:'delivery', nombre:'KIGO DELIVERY', desc:'Tracking en tiempo real, repartidores y cliente final con mapa.', tags:['Mapa','Repartidor','Tracking'], img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', demo:'https://delivery.kigo.demo', user:'delivery@demo.com', pass:'delivery123' },
+{ id:5, cat:'hotel', nombre:'KIGO CABAÑAS', desc:'Versión para cabañas y Airbnb con calendario y bloqueo de fechas.', tags:['Calendario','Airbnb','Cabañas'], img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800', demo:'https://cabanas.kigo.demo', user:'cabana@demo.com', pass:'cabana123' },
+{ id:6, cat:'recargas', nombre:'KIGO PAGOS', desc:'Cobro de servicios CFE, Telmex, recargas y pines en una sola plataforma.', tags:['CFE','Pines','Servicios'], img:'https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=800', demo:'https://pagos.kigo.demo', user:'pagos@demo.com', pass:'pagos123' },
+];
+
+const grid=document.getElementById('grid'), search=document.getElementById('search'), filters=document.getElementById('filters');
+let filtro='todo';
+
+function render(){
+ let q=search.value.toLowerCase();
+ grid.innerHTML='';
+ plataformas.filter(p=> (filtro==='todo'||p.cat===filtro) && (p.nombre.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)) ).forEach(p=>{
+  grid.innerHTML+=`<div class="card">
+   <div class="thumb"><img src="${p.img}"><div class="badge">${p.cat.toUpperCase()} • DEMO EN VIVO</div></div>
+   <div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="meta">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+   <div class="actions"><button class="btn btn-sec" onclick="openDemo(${p.id})">Ver preview</button><button class="btn btn-primary" onclick="openLink('${p.demo}')">Ingresar →</button></div></div></div>`;
+ });
+}
+function openDemo(id){
+ let p=plataformas.find(x=>x.id===id);
+ document.getElementById('mTitle').innerText=p.nombre;
+ document.getElementById('mDesc').innerText=p.desc;
+ document.getElementById('mUser').innerText=p.user;
+ document.getElementById('mPass').innerText=p.pass;
+ document.getElementById('mFrame').src=p.demo;
+ document.getElementById('mGo').onclick=()=>window.open(p.demo,'_blank');
+ document.getElementById('modal').style.display='flex';
+}
+function closeModal(){ document.getElementById('modal').style.display='none'; document.getElementById('mFrame').src=''; }
+function openLink(url){ window.open(url,'_blank'); }
+
+filters.addEventListener('click',e=>{ if(e.target.classList.contains('f')){ document.querySelectorAll('.f').forEach(x=>x.classList.remove('active')); e.target.classList.add('active'); filtro=e.target.dataset.f; render(); } });
+search.addEventListener('input',render);
+render();
+</script>
+</body>
+</html>
