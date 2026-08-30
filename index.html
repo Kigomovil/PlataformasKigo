@@ -20,22 +20,19 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 .grid{max-width:1200px;margin:0 auto;padding:20px 20px 30px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
 .card{background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:.3s;box-shadow:0 1px 0 rgba(0,0,0,.02),0 8px 24px rgba(0,0,0,.04)}
 .card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.10)}
-.thumb{height:165px;background:#f3f3f5;position:relative;overflow:hidden}
-.thumbSlider{display:flex;height:100%;transition:transform 0.7s cubic-bezier(.4,0,.2,1)}
-.thumbSlider img{min-width:100%;height:100%;object-fit:cover;flex-shrink:0}
-.tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,.06);padding:6px 10px;border-radius:999px;font-size:10px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:2}
-.dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2}
-.dots span{width:6px;height:6px;border-radius:99px;background:rgba(255,255,255,.6);transition:.3s}
-.dots span.active{background:white;width:14px}
+.thumb{height:165px;background:#f3f3f5;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,.06);padding:6px 10px;border-radius:999px;font-size:10px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .content{padding:14px}
 .content h3{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:17px;letter-spacing:-0.4px;margin-bottom:6px;font-weight:700}
 .content p{color:var(--muted);font-size:12.5px;line-height:1.5;min-height:60px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .price{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:13.5px;font-weight:700;margin:10px 0 6px}.price span{color:var(--muted);font-weight:500;font-size:11px}
 .meta{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 12px}.meta i{font-style:normal;font-size:10px;background:#f8f8f9;border:1px solid #ececef;padding:5px 9px;border-radius:999px;color:#3f3f46;font-weight:500}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn{height:42px;border-radius:12px;border:1px solid var(--line);font-weight:700;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s}
-.btn-view{background:white;color:var(--black);box-shadow:0 2px 0 rgba(0,0,0,.03),0 6px 16px rgba(0,0,0,.06),0 1px 0 rgba(0,0,0,.04) inset}.btn-view:hover{box-shadow:0 8px 20px rgba(0,0,0,.10);transform:translateY(-1px)}
-.btn-quote{background:var(--black);color:white;border-color:var(--black);box-shadow:0 6px 16px rgba(0,0,0,.18),0 2px 0 rgba(255,255,255,.1) inset}.btn-quote:hover{box-shadow:0 12px 28px rgba(0,0,0,.25);transform:translateY(-1px)}
+.btn{height:42px;border-radius:12px;border:1px solid var(--line);font-weight:700;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.25s}
+.btn-view{background:white;color:var(--black);box-shadow:0 2px 0 rgba(0,0,0,.03),0 6px 16px rgba(0,0,0,.06)}.btn-view:hover{box-shadow:0 8px 20px rgba(0,0,0,.10);transform:translateY(-1px)}
+.btn-view.neon-active{background:#e0f2fe;color:#0284c7;border-color:#38bdf8;box-shadow:0 0 0 2px rgba(56,189,248,.3),0 0 20px rgba(56,189,248,.7),0 0 40px rgba(56,189,248,.4);transform:scale(1.02)}
+.btn-quote{background:var(--black);color:white;border-color:var(--black);box-shadow:0 6px 16px rgba(0,0,0,.18)}.btn-quote:hover{box-shadow:0 12px 28px rgba(0,0,0,.25);transform:translateY(-1px)}
+.btn-quote.neon-active{background:#fef08a;color:#854d0e;border-color:#facc15;box-shadow:0 0 0 2px rgba(250,204,21,.4),0 0 20px rgba(250,204,21,.8),0 0 40px rgba(250,204,21,.5);transform:scale(1.02)}
 .mostSection{max-width:1200px;margin:6px auto 0;padding:0 20px 40px;border-top:1px solid var(--line)}
 .mostHead{display:flex;justify-content:space-between;align-items:center;padding:18px 0 12px}
 .mostHead h2{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:18px;font-weight:800}
@@ -81,8 +78,8 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 
 <footer><div class="footerBrand"><span class="black">Desarrollo</span> <span class="red">Kigo Apps</span></div><div class="footerSub">Plataformas profesionales para tu negocio • Dolores Hidalgo, Guanajuato • 2026</div></footer>
 
-<div class="modal" id="viewModal"><div class="box"><div class="boxHead"><b id="vTitle">Demo</b><button class="iconBtn" onclick="closeView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="split"><iframe id="vFrame" class="iframe"></iframe><div class="side"><div id="vName" style="font-weight:700"></div><div id="vCat" style="font-size:12px;color:#6b7280;margin:4px 0 10px"></div><p id="vDesc" style="font-size:13px;color:#6b7280;line-height:1.6"></p><div style="margin:16px 0;padding:14px;border:1px solid #eaeaec;border-radius:12px;background:white"><div style="font-size:12px;color:#6b7280">PRECIO DESDE</div><div style="font-weight:800;font-size:18px" id="vPrice">$0</div></div><button id="vGo" class="btn btn-quote" style="width:100%">Abrir plataforma completa</button></div></div></div></div>
-<div class="modal" id="loginModal"><div class="box" style="max-width:380px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="form"><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" onclick="doLogin()">Ingresar</button></div></div></div>
+<div class="modal" id="viewModal"><div class="box"><div class="boxHead"><b id="vTitle">Demo</b><button class="iconBtn" onclick="closeView()">✕</button></div><div class="split"><iframe id="vFrame" class="iframe"></iframe><div class="side"><div id="vName" style="font-weight:700"></div><div id="vCat" style="font-size:12px;color:#6b7280;margin:4px 0 10px"></div><p id="vDesc" style="font-size:13px;color:#6b7280;line-height:1.6"></p><div style="margin:16px 0;padding:14px;border:1px solid #eaeaec;border-radius:12px;background:white"><div style="font-size:12px;color:#6b7280">PRECIO DESDE</div><div style="font-weight:800;font-size:18px" id="vPrice">$0</div></div><button id="vGo" class="btn btn-quote" style="width:100%">Abrir plataforma completa</button></div></div></div></div>
+<div class="modal" id="loginModal"><div class="box" style="max-width:380px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()">✕</button></div><div class="form"><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" onclick="doLogin()">Ingresar</button></div></div></div>
 <div class="modal" id="adminModal"><div class="box" style="max-width:740px"><div class="boxHead"><b>Panel Administrador</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()">✕</button></div></div><div class="form">
 <h4 style="font-size:12px;color:#6b7280">CONFIGURACIÓN GENERAL</h4>
 <div class="row"><input id="siteNameInput" class="input" placeholder="Nombre sitio"><input id="heroTitleInput" class="input" placeholder="Titulo hero"></div>
@@ -90,7 +87,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <hr style="border:0;border-top:1px solid #eaeaec">
 <h4 style="font-size:12px;color:#6b7280">GESTIÓN DE PLATAFORMAS</h4>
 <div class="row"><input id="aName" class="input" placeholder="Nombre"><input id="aCat" class="input" placeholder="Categoría: hotel, recargas, restaurante, delivery, uber"></div>
-<input id="aDesc" class="input" placeholder="Descripción detallada"><input id="aImg" class="input" placeholder="URL imagen principal"><input id="aUrl" class="input" placeholder="URL proyecto"><div class="row"><input id="aPrice" class="input" placeholder="Precio"><input id="aTags" class="input" placeholder="Tags coma"></div>
+<input id="aDesc" class="input" placeholder="Descripción detallada"><input id="aImg" class="input" placeholder="URL imagen"><input id="aUrl" class="input" placeholder="URL proyecto"><div class="row"><input id="aPrice" class="input" placeholder="Precio"><input id="aTags" class="input" placeholder="Tags coma"></div>
 <label style="font-size:12px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="aMost" checked> Marcar como más usada</label>
 <div style="display:flex;gap:10px"><button class="btn btn-quote" style="flex:1" onclick="savePlatform()">Guardar plataforma</button><button class="btn btn-view" style="flex:1" onclick="clearForm()">Limpiar</button></div>
 <div id="adminList" style="display:grid;gap:8px;margin-top:10px"></div>
@@ -98,19 +95,16 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 
 <script>
 let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [
-{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa para gestión de reservas directas, check-in digital, control de habitaciones, cobros y reportes. Ideal para hoteles en Dolores que quieren vender directo sin Booking.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', imgs:['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800','https://images.unsplash.com/photo-1551882547-b79c5d7d1a2a?q=80&w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800'], url:'https://example.com/hotel', price:'Desde $499 USD', tags:['Reservas','Pagos'], top:true },
-{ id:2, cat:'recargas', nombre:'KIGO RECARGAS MAYORISTA', desc:'Sistema mayorista de recargas Telcel, Bait, Movistar con saldo centralizado, API y comisiones automáticas. Utilidad 6% al 12% por recarga.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', imgs:['https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800','https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=800','https://images.unsplash.com/photo-1556740772-1a741367b93e?q=80&w=800'], url:'https://example.com/recargas', price:'Desde $299 USD', tags:['API','Saldo'], top:true },
-{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR por mesa, comandas desde celular, panel de cocina en tiempo real y delivery propio. Reduce tiempos 40%.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', imgs:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800','https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800'], url:'https://example.com/resto', price:'Desde $349 USD', tags:['QR','Cocina'], top:true },
-{ id:4, cat:'delivery', nombre:'KIGO DELIVERY TRACKING', desc:'Sistema delivery con tracking GPS en vivo, asignación de repartidores y prueba de entrega con foto. El cliente ve su moto en el mapa como Uber Eats.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', imgs:['https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800','https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800','https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800'], url:'https://example.com/delivery', price:'Desde $399 USD', tags:['GPS','Repartidores'], top:true },
-{ id:5, cat:'uber', nombre:'KIGO UBER CLONE - TAXI & MOTO', desc:'Aplicación tipo Uber completa: App cliente, App conductor, Panel admin con tarifas por km, comisiones y tracking GPS en vivo. Pagos efectivo y tarjeta.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', imgs:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800','https://images.unsplash.com/photo-1519003722824-194243704534?q=80&w=800','https://images.unsplash.com/photo-1485575301923-ff8f5bad1804?q=80&w=800'], url:'https://example.com/uber', price:'Desde $899 USD', tags:['GPS en vivo','Tarifa por km','App conductor'], top:true },
-{ id:6, cat:'uber', nombre:'KIGO MANDADITOS EXPRESS', desc:'App tipo Uber para mandados y envíos express. El usuario pide lo que necesita, el repartidor lo compra y lo entrega. Chat en vivo y tarifa dinámica.', img:'https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800', imgs:['https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800','https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=800','https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?q=80&w=800'], url:'https://example.com/mandados', price:'Desde $749 USD', tags:['Mandados','Chat','Tarifa dinámica'], top:true },
+{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa para gestión de reservas directas, check-in digital, control de habitaciones, cobros y reportes. Ideal para hoteles en Dolores que quieren vender directo sin Booking.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', url:'https://example.com/hotel', price:'Desde $499 USD', tags:['Reservas','Pagos'], top:true },
+{ id:2, cat:'recargas', nombre:'KIGO RECARGAS MAYORISTA', desc:'Sistema mayorista de recargas Telcel, Bait, Movistar con saldo centralizado, API y comisiones automáticas. Utilidad 6% al 12% por recarga.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', url:'https://example.com/recargas', price:'Desde $299 USD', tags:['API','Saldo'], top:true },
+{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR por mesa, comandas desde celular, panel de cocina en tiempo real y delivery propio. Reduce tiempos 40%.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', url:'https://example.com/resto', price:'Desde $349 USD', tags:['QR','Cocina'], top:true },
+{ id:4, cat:'delivery', nombre:'KIGO DELIVERY TRACKING', desc:'Sistema delivery con tracking GPS en vivo, asignación de repartidores y prueba de entrega con foto. El cliente ve su moto en el mapa como Uber Eats.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', url:'https://example.com/delivery', price:'Desde $399 USD', tags:['GPS','Repartidores'], top:true },
+{ id:5, cat:'uber', nombre:'KIGO UBER CLONE - TAXI & MOTO', desc:'Aplicación tipo Uber completa: App cliente, App conductor, Panel admin con tarifas por km, comisiones y tracking GPS en vivo. Pagos efectivo y tarjeta.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', url:'https://example.com/uber', price:'Desde $899 USD', tags:['GPS en vivo','Tarifa por km','App conductor'], top:true },
+{ id:6, cat:'uber', nombre:'KIGO MANDADITOS EXPRESS', desc:'App tipo Uber para mandados y envíos express. El usuario pide lo que necesita, el repartidor lo compra y lo entrega. Chat en vivo y tarifa dinámica.', img:'https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800', url:'https://example.com/mandados', price:'Desde $749 USD', tags:['Mandados','Chat','Tarifa dinámica'], top:true },
 ];
 let siteConfig = JSON.parse(localStorage.getItem('kigo_site')||'{"name":"KIGO <i>SHOWROOM</i>","hero":"Explora. Prueba. Cotiza."}');
 let creds = JSON.parse(localStorage.getItem('kigo_creds')||'{"user":"admin","pass":"kigo123"}');
 let isLogged=false, filtro='todo', editingId=null;
-let cardIndexes={};
-let autoSlideInterval=null;
-
 function save(){ localStorage.setItem('kigo_showroom', JSON.stringify(platforms)); localStorage.setItem('kigo_site', JSON.stringify(siteConfig)); localStorage.setItem('kigo_creds', JSON.stringify(creds)); }
 function applySite(){ document.getElementById('siteLogo').innerHTML=siteConfig.name; document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('siteNameInput').value=siteConfig.name.replace(/<[^>]*>/g,'').trim(); document.getElementById('heroTitleInput').value=siteConfig.hero; }
 function catLabel(c){ if(c==='todo') return 'TODO'; if(c==='uber') return 'APLICACIÓN TIPO UBER'; return c.toUpperCase(); }
@@ -119,39 +113,27 @@ function setFilter(c){ filtro=c; renderFilters(); renderGrid(); }
 function renderGrid(){
  let q=document.getElementById('search').value.toLowerCase();
  let list=platforms.filter(p=> (filtro==='todo'||p.cat===filtro) && (p.nombre.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
- document.getElementById('grid').innerHTML=list.map(p=>{
-  let imgs=p.imgs||[p.img,p.img,p.img];
-  return `<div class="card">
-   <div class="thumb">
-    <div class="thumbSlider" id="slider-${p.id}" style="width:${imgs.length*100}%">
-     ${imgs.map(src=>`<img src="${src}">`).join('')}
-    </div>
-    <div class="tag">${catLabel(p.cat)}</div>
-    <div class="dots" id="dots-${p.id}">${imgs.map((_,i)=>`<span class="${i===0?'active':''}"></span>`).join('')}</div>
+ document.getElementById('grid').innerHTML=list.map(p=>`
+  <div class="card">
+   <div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div>
+   <div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} <span>• pago único</span></div><div class="meta">${p.tags.map(t=>`<i>${t}</i>`).join('')}</div>
+   <div class="actions">
+    <button class="btn btn-view" onclick="handleView(this,${p.id})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver</button>
+    <button class="btn btn-quote" onclick="handleQuote(this,${p.id})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Cotizar</button>
    </div>
-   <div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} <span>• pago único</span></div><div class="meta">${p.tags.map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="openView(${p.id})">Ver</button><button class="btn btn-quote" onclick="openQuote(${p.id})">Cotizar</button></div></div>
-  </div>`;
- }).join('');
- list.forEach(p=>{ cardIndexes[p.id]=0; });
+   </div>
+  </div>`).join('');
  renderMost();
- startAutoSlide();
 }
-function startAutoSlide(){
- if(autoSlideInterval) clearInterval(autoSlideInterval);
- autoSlideInterval=setInterval(()=>{
-  document.querySelectorAll('.thumbSlider').forEach(slider=>{
-   let id=parseInt(slider.id.replace('slider-',''));
-   let p=platforms.find(x=>x.id===id);
-   if(!p) return;
-   let total=(p.imgs||[p.img]).length;
-   cardIndexes[id]=(cardIndexes[id]+1)%total;
-   slider.style.transform=`translateX(-${cardIndexes[id]*(100/total)}%)`;
-   let dots=document.getElementById(`dots-${id}`);
-   if(dots){
-    dots.querySelectorAll('span').forEach((d,i)=>d.classList.toggle('active', i===cardIndexes[id]));
-   }
-  });
- },3000);
+function handleView(btn,id){
+ btn.classList.add('neon-active');
+ setTimeout(()=>btn.classList.remove('neon-active'),900);
+ openView(id);
+}
+function handleQuote(btn,id){
+ btn.classList.add('neon-active');
+ setTimeout(()=>btn.classList.remove('neon-active'),900);
+ openQuote(id);
 }
 function renderMost(){
  let top=platforms;
@@ -178,15 +160,7 @@ function openAdmin(){ if(!isLogged) return openLogin(); document.getElementById(
 function closeAdmin(){ document.getElementById('adminModal').style.display='none'; }
 function updateCreds(){ let nu=document.getElementById('newUser').value, np=document.getElementById('newPass').value; if(nu) creds.user=nu; if(np) creds.pass=np; save(); alert('Actualizado: '+creds.user); }
 function clearForm(){ editingId=null; ['aName','aCat','aDesc','aImg','aUrl','aPrice','aTags'].forEach(i=>document.getElementById(i).value=''); document.getElementById('aMost').checked=true; }
-function savePlatform(){
- siteConfig.name=document.getElementById('siteNameInput').value.includes('<')?document.getElementById('siteNameInput').value:document.getElementById('siteNameInput').value.split(' ')[0]+' <i>'+(document.getElementById('siteNameInput').value.split(' ').slice(1).join(' ')||'SHOWROOM')+'</i>';
- siteConfig.hero=document.getElementById('heroTitleInput').value||siteConfig.hero; save(); applySite();
- let name=document.getElementById('aName').value; if(!name) return;
- let mainImg=document.getElementById('aImg').value||'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
- let obj={ id:editingId||Date.now(), cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:mainImg, imgs:[mainImg, mainImg, mainImg], url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'Desde $0', tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked };
- let idx=platforms.findIndex(x=>x.id===obj.id); if(idx>=0){ obj.imgs=platforms[idx].imgs||obj.imgs; platforms[idx]=obj; } else platforms.push(obj);
- save(); renderFilters(); renderGrid(); renderAdminList(); clearForm();
-}
+function savePlatform(){ siteConfig.name=document.getElementById('siteNameInput').value.includes('<')?document.getElementById('siteNameInput').value:document.getElementById('siteNameInput').value.split(' ')[0]+' <i>'+(document.getElementById('siteNameInput').value.split(' ').slice(1).join(' ')||'SHOWROOM')+'</i>'; siteConfig.hero=document.getElementById('heroTitleInput').value||siteConfig.hero; save(); applySite(); let name=document.getElementById('aName').value; if(!name) return; let obj={ id:editingId||Date.now(), cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:document.getElementById('aImg').value||'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800', url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'Desde $0', tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked }; let idx=platforms.findIndex(x=>x.id===obj.id); if(idx>=0) platforms[idx]=obj; else platforms.push(obj); save(); renderFilters(); renderGrid(); renderAdminList(); clearForm(); }
 function renderAdminList(){ document.getElementById('adminList').innerHTML=platforms.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;border:1px solid #eaeaec;border-radius:12px;padding:10px 12px;background:#fcfcfd"><div style="font-size:13px"><b>${p.nombre}</b><br><span style="color:#6b7280">${catLabel(p.cat)} • ${p.price}</span></div><div style="display:flex;gap:6px"><button class="iconBtn" style="width:36px;height:36px" onclick="editP(${p.id})">✎</button><button class="iconBtn" style="width:36px;height:36px" onclick="delP(${p.id})">✕</button></div></div>`).join(''); }
 function editP(id){ let p=platforms.find(x=>x.id===id); editingId=id; document.getElementById('aName').value=p.nombre; document.getElementById('aCat').value=p.cat; document.getElementById('aDesc').value=p.desc; document.getElementById('aImg').value=p.img; document.getElementById('aUrl').value=p.url; document.getElementById('aPrice').value=p.price; document.getElementById('aTags').value=p.tags.join(', '); document.getElementById('aMost').checked=p.top; }
 function delP(id){ if(confirm('Borrar?')){ platforms=platforms.filter(x=>x.id!==id); save(); renderFilters(); renderGrid(); renderAdminList(); } }
