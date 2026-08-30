@@ -18,19 +18,24 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 .searchIcon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af}
 .filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
 .chip{padding:9px 16px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);transition:.2s}.chip.active{background:var(--black);color:white;border-color:var(--black);box-shadow:0 6px 16px rgba(0,0,0,.15)}
-.grid{max-width:1200px;margin:0 auto;padding:24px 20px 100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
+.grid{max-width:1200px;margin:0 auto;padding:24px 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
 .card{background:white;border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:.3s;box-shadow:0 1px 0 rgba(0,0,0,.02),0 8px 24px rgba(0,0,0,.04)}
 .card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.10),0 2px 0 rgba(0,0,0,.03);border-color:#d9d9de}
-.thumb{height:210px;background:#f3f3f5;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover;transition:.5s}.card:hover.thumb img{transform:scale(1.04)}
+.thumb{height:210px;background:#f3f3f5;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}
 .tag{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,.06);padding:7px 11px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .content{padding:18px}
-.content h3{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:18.5px;letter-spacing:-0.5px;margin-bottom:6px;font-weight:700}.content p{color:var(--muted);font-size:13px;line-height:1.6;height:40px;overflow:hidden;font-weight:400}
+.content h3{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:18.5px;letter-spacing:-0.5px;margin-bottom:8px;font-weight:700}
+.content p{color:var(--muted);font-size:13px;line-height:1.6;min-height:92px;font-weight:400}
 .price{font-family:Plus Jakarta Sans,Inter,sans-serif;font-size:14.5px;font-weight:700;margin:14px 0 6px;letter-spacing:-0.2px}.price span{color:var(--muted);font-weight:500;font-family:Inter,sans-serif}
 .meta{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 18px}.meta i{font-style:normal;font-size:11px;background:#f8f8f9;border:1px solid #ececef;padding:6px 11px;border-radius:999px;color:#3f3f46;font-weight:500}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{height:48px;border-radius:14px;border:1px solid var(--line);font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;letter-spacing:-0.1px}
-.btn-view{background:white;color:var(--black);box-shadow:0 1px 0 rgba(0,0,0,.03),0 4px 12px rgba(0,0,0,.04)}.btn-view:hover{background:#fcfcfc;box-shadow:0 8px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
-.btn-quote{background:var(--black);color:white;border-color:var(--black);box-shadow:0 8px 20px rgba(0,0,0,.18)}.btn-quote:hover{background:#151515;transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.btn{height:48px;border-radius:14px;border:1px solid var(--line);font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.btn-view{background:white;color:var(--black);box-shadow:0 1px 0 rgba(0,0,0,.03),0 4px 12px rgba(0,0,0,.04)}.btn-view:hover{box-shadow:0 8px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.btn-quote{background:var(--black);color:white;border-color:var(--black);box-shadow:0 8px 20px rgba(0,0,0,.18)}.btn-quote:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,0,0,.22)}
+footer{border-top:1px solid var(--line);padding:32px 20px;text-align:center;background:#fcfcfd;margin-top:20px}
+.footerBrand{font-family:Plus Jakarta Sans,Inter,sans-serif;font-weight:800;font-size:15px;letter-spacing:-0.3px}
+.footerBrand.black{color:#0a0a0a}.footerBrand.red{color:#dc2626}
+.footerSub{color:#9ca3af;font-size:12px;margin-top:8px}
 .modal{position:fixed;inset:0;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);display:none;z-index:60;padding:20px;align-items:center;justify-content:center}
 .box{width:100%;max-width:900px;background:white;border-radius:24px;border:1px solid var(--line);overflow:hidden;max-height:90vh;display:flex;flex-direction:column}
 .boxHead{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
@@ -45,7 +50,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 <header>
 <div class="logo" id="siteLogo">KIGO <i>SHOWROOM</i></div>
 <button class="adminIcon" onclick="openLogin()" title="Administrador">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 </button>
 </header>
 
@@ -61,9 +66,14 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 
 <div class="grid" id="grid"></div>
 
+<footer>
+<div class="footerBrand"><span class="black">Desarrollo</span> <span class="red">Kigo Apps</span></div>
+<div class="footerSub">Plataformas profesionales para tu negocio • Dolores Hidalgo, Guanajuato • 2026</div>
+</footer>
+
 <div class="modal" id="viewModal"><div class="box"><div class="boxHead"><b id="vTitle">Demo</b><button class="iconBtn" onclick="closeView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="split"><iframe id="vFrame" class="iframe"></iframe><div class="side"><div id="vName" style="font-weight:700"></div><div id="vCat" style="font-size:12px;color:#6b7280;margin:4px 0 10px"></div><p id="vDesc" style="font-size:13px;color:#6b7280;line-height:1.6"></p><div style="margin:16px 0;padding:14px;border:1px solid #eaeaec;border-radius:12px;background:white"><div style="font-size:12px;color:#6b7280">PRECIO DESDE</div><div style="font-weight:800;font-size:18px" id="vPrice">$0</div></div><button id="vGo" class="btn btn-quote" style="width:100%">Abrir plataforma completa</button></div></div></div></div>
 
-<div class="modal" id="loginModal"><div class="box" style="max-width:380px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="form"><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" onclick="doLogin()">Ingresar</button><div style="font-size:12px;color:#6b7280;text-align:center">admin / kigo123</div></div></div></div>
+<div class="modal" id="loginModal"><div class="box" style="max-width:380px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="form"><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" onclick="doLogin()">Ingresar</button></div></div></div>
 
 <div class="modal" id="adminModal"><div class="box" style="max-width:740px"><div class="boxHead"><b>Panel Administrador</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button><button class="iconBtn" onclick="closeAdmin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></div><div class="form">
 <h4 style="font-size:12px;color:#6b7280;letter-spacing:.6px">CONFIGURACIÓN GENERAL</h4>
@@ -72,16 +82,17 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 <hr style="border:0;border-top:1px solid #eaeaec">
 <h4 style="font-size:12px;color:#6b7280;letter-spacing:.6px">GESTIÓN DE PLATAFORMAS</h4>
 <div class="row"><input id="aName" class="input" placeholder="Nombre"><input id="aCat" class="input" placeholder="Categoría"></div>
-<input id="aDesc" class="input" placeholder="Descripción"><input id="aImg" class="input" placeholder="URL imagen"><input id="aUrl" class="input" placeholder="URL proyecto"><div class="row"><input id="aPrice" class="input" placeholder="Precio"><input id="aTags" class="input" placeholder="Tags coma"></div>
+<input id="aDesc" class="input" placeholder="Descripción detallada"><input id="aImg" class="input" placeholder="URL imagen"><input id="aUrl" class="input" placeholder="URL proyecto"><div class="row"><input id="aPrice" class="input" placeholder="Precio"><input id="aTags" class="input" placeholder="Tags coma"></div>
 <div style="display:flex;gap:10px"><button class="btn btn-quote" style="flex:1" onclick="savePlatform()">Guardar plataforma</button><button class="btn btn-view" style="flex:1" onclick="clearForm()">Limpiar</button></div>
 <div id="adminList" style="display:grid;gap:8px;margin-top:10px"></div>
 </div></div></div>
 
 <script>
 let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [
-{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Sistema de reservas, pagos y administración hotelera.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', url:'https://example.com/hotel', price:'Desde $499 USD', tags:['Reservas','Pagos','Admin'] },
-{ id:2, cat:'recargas', nombre:'KIGO RECARGAS', desc:'Recargas Telcel, Bait, Movistar con comisiones.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', url:'https://example.com/recargas', price:'Desde $299 USD', tags:['API','SPEI'] },
-{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR, comandas y cocina.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', url:'https://example.com/resto', price:'Desde $349 USD', tags:['QR','Cocina'] },
+{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa para gestión de reservas directas, check-in y check-out digital, control de habitaciones en tiempo real, cobros con tarjeta, SPEI y efectivo, facturación y reportes de ocupación. Ideal para hoteles en Dolores Hidalgo que quieren dejar Booking y vender directo.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', url:'https://example.com/hotel', price:'Desde $499 USD', tags:['Reservas directas','Pagos','Admin hotel'] },
+{ id:2, cat:'recargas', nombre:'KIGO RECARGAS MAYORISTA', desc:'Sistema mayorista de recargas electrónicas Telcel, Bait, Movistar, AT&T, Unefon con saldo centralizado, API para integrar a tu app, comisiones automáticas por vendedor y corte de caja diario. Con conexión a proveedores reales y utilidad del 6% al 12% por recarga.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', url:'https://example.com/recargas', price:'Desde $299 USD', tags:['API recargas','Saldo mayorista','Comisiones'] },
+{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Plataforma para restaurantes con menú digital QR por mesa, toma de comandas desde el celular del cliente, panel de cocina en tiempo real, gestión de meseros, cobro dividido y módulo de delivery propio. Reduce tiempos de atención en 40% y aumenta ticket promedio.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', url:'https://example.com/resto', price:'Desde $349 USD', tags:['Menú QR','Comandas','Cocina KDS'] },
+{ id:4, cat:'delivery', nombre:'KIGO DELIVERY TRACKING', desc:'Sistema de delivery con tracking GPS en vivo para el cliente final, asignación automática de repartidores, cálculo de rutas, prueba de entrega con foto y firma, y panel de control de pedidos. El cliente ve su moto en el mapa como Uber Eats.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', url:'https://example.com/delivery', price:'Desde $399 USD', tags:['GPS en vivo','Repartidores','Prueba entrega'] },
 ];
 let siteConfig = JSON.parse(localStorage.getItem('kigo_site')||'{"name":"KIGO <i>SHOWROOM</i>","hero":"Explora. Prueba. Cotiza."}');
 let creds = JSON.parse(localStorage.getItem('kigo_creds')||'{"user":"admin","pass":"kigo123"}');
