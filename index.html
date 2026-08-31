@@ -40,6 +40,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 .adminTab.active{background:var(--black);color:white;border-color:var(--black)}
 .uploadBox{border:2px dashed #d1d5db;border-radius:14px;padding:12px;text-align:center;background:white;cursor:pointer;transition:.2s;font-size:12px}
 .uploadBox:hover{border-color:var(--black);background:#fcfcfd}
+.platSubTabs{display:flex;gap:8px;margin-bottom:12px}.platSubTab{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:white;font-weight:700;font-size:12px;cursor:pointer}.platSubTab.active{background:var(--black);color:white}
 @media(max-width:768px){
 .modal{padding:8px;align-items:flex-start;overflow-y:auto}
 .modal.centered{align-items:center!important;justify-content:center!important}
@@ -71,7 +72,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px;letter-spacing:.5px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;letter-spacing:.5px">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div>
-<div style="padding:14px;border:1px solid #111;border-radius:14px;background:#0a0a0a;color:white;margin-bottom:14px"><div style="font-size:11px;color:#9ca3af" id="vPayLabel">PRECIO DESDE</div><div style="font-weight:800;font-size:20px" id="vPrice">$0</div><div style="font-size:11px;color:#9ca3af;margin-top:4px" id="vPaySub">pago único • sin mensualidades</div></div>
+<div style="padding:14px;border:1px solid #111;border-radius:14px;background:#0a0a0a;color:white;margin-bottom:14px"><div style="font-size:11px;color:#9ca3af" id="vPayLabel">PRECIO DESDE</div><div style="font-weight:800;font-size:20px" id="vPrice">$0</div><div style="font-size:11px;color:#9ca3af;margin-top:4px" id="vPaySub">pago único</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div>
 <div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div>
 </div></div></div></div>
@@ -82,24 +83,16 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div class="adminTabs"><button class="adminTab active" id="tabMod" onclick="switchTab('mod')">1. Modificaciones</button><button class="adminTab" id="tabPlat" onclick="switchTab('plat')">2. Plataformas</button><button class="adminTab" id="tabAcc" onclick="switchTab('acc')">3. Acceso</button></div>
 
 <div class="form" id="panelMod">
-<h4 style="font-size:12px;color:#6b7280;letter-spacing:.5px">MODIFICACIONES GENERALES - TIEMPO REAL</h4>
+<h4 style="font-size:12px;color:#6b7280">MODIFICACIONES GENERALES</h4>
 <div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:14px">
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px">
 <label style="font-size:11px;font-weight:700">LOGO DESDE CELULAR</label>
 <div style="display:flex;gap:12px;align-items:center;margin-top:10px">
 <div id="logoPreview" style="width:56px;height:56px;border-radius:12px;background:#f3f3f5;border:1px solid #eaeaec;display:grid;place-items:center;font-weight:800;overflow:hidden">K</div>
-<div style="flex:1">
-<input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogo(this)">
-<div class="uploadBox" onclick="document.getElementById('logoFile').click()">📸 Tocar para subir logo</div>
-<div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-view" style="flex:1;height:36px;font-size:11px" onclick="removeLogo()">Quitar logo</button></div>
-</div></div></div>
+<div style="flex:1"><input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogo(this)"><div class="uploadBox" onclick="document.getElementById('logoFile').click()">📸 Tocar para subir logo</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-view" style="flex:1;height:36px;font-size:11px" onclick="removeLogo()">Quitar logo</button></div></div></div></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px;display:grid;gap:8px">
 <label style="font-size:11px;font-weight:700">COLOR PALABRA AMARILLA</label>
-<div style="display:flex;gap:10px;align-items:center">
-<input type="color" id="accentColor" value="#f59e0b" style="width:56px;height:42px;border-radius:10px;padding:4px" oninput="updateLive()">
-<div style="flex:1"><input id="accentHex" class="input" oninput="syncColorText(this.value)"></div>
-<div id="colorDemo" style="padding:8px 12px;border-radius:999px;background:#0a0a0a;color:white;font-weight:800;font-size:12px">KIGO <span id="colorDemoAccent" style="color:#f59e0b">SHOWROOM</span></div>
-</div></div>
+<div style="display:flex;gap:10px;align-items:center"><input type="color" id="accentColor" value="#f59e0b" style="width:56px;height:42px;border-radius:10px;padding:4px" oninput="updateLive()"><div style="flex:1"><input id="accentHex" class="input" oninput="syncColorText(this.value)"></div><div id="colorDemo" style="padding:8px 12px;border-radius:999px;background:#0a0a0a;color:white;font-weight:800;font-size:12px">KIGO <span id="colorDemoAccent" style="color:#f59e0b">SHOWROOM</span></div></div></div>
 <label style="font-size:11px;font-weight:600">NOMBRE PLATAFORMA</label><input id="siteNameInput" class="input" oninput="updateLive()">
 <label style="font-size:11px;font-weight:600">TÍTULO HERO</label><input id="heroTitleInput" class="input" oninput="updateLive()">
 <label style="font-size:11px;font-weight:600">SUBTÍTULO HERO</label><input id="heroSubInput" class="input" oninput="updateLive()">
@@ -110,48 +103,54 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 </div></div>
 
 <div class="form" id="panelPlat" style="display:none">
-<h4 style="font-size:12px;color:#6b7280">AGREGAR / EDITAR PRODUCTO</h4>
-<div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:12px">
+<h4 style="font-size:12px;color:#6b7280">PLATAFORMAS - AGREGAR Y EDITAR</h4>
+<div class="platSubTabs"><button class="platSubTab active" id="platTabAdd" onclick="setPlatMode('add')">➕ Agregar producto</button><button class="platSubTab" id="platTabEdit" onclick="setPlatMode('edit')">✎ Editar productos</button></div>
+
+<div id="platAddBox" style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:12px">
 <label style="font-size:11px;font-weight:700">NOMBRE PRODUCTO</label><input id="aName" class="input" placeholder="Ej: KIGO UBER CLONE">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<div><label style="font-size:11px;font-weight:600">CATEGORÍA</label><input id="aCat" class="input" placeholder="hotel, recargas, restaurante, delivery, uber"></div>
-<div><label style="font-size:11px;font-weight:600">TIPO DE PAGO</label><select id="aPayType" class="input"><option value="unico">Pago único</option><option value="mensual">Mensualidad</option><option value="anual">Anual</option></select></div>
-</div>
-<label style="font-size:11px;font-weight:600">DESCRIPCIÓN DETALLADA</label><textarea id="aDesc" class="input" style="min-height:70px;resize:vertical" placeholder="Describe qué incluye la plataforma..."></textarea>
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px">
-<label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL - DESDE CELULAR</label>
-<div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-<img id="aImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec;background:#f3f3f5;display:none">
-<div style="flex:1"><input type="file" id="aImgFile" accept="image/*" style="display:none" onchange="uploadPlatImg(this)"><div class="uploadBox" onclick="document.getElementById('aImgFile').click()">📸 Subir imagen principal desde galería</div><input id="aImg" class="input" type="hidden"></div>
-</div></div>
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px">
-<label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS - DESDE CELULAR</label>
-<div style="margin-top:8px"><input type="file" id="aGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadGallery(this)"><div class="uploadBox" onclick="document.getElementById('aGalleryFiles').click()">🖼️ Subir 7 fotos de la plataforma (desde celular)</div><div id="aGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
-<label style="font-size:11px;font-weight:600">URL PLATAFORMA DEMO (Link real)</label><input id="aUrl" class="input" placeholder="https://tu-demo.com">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">PRECIO</label><input id="aPrice" class="input" placeholder="Ej: $499"></div><div><label style="font-size:11px;font-weight:600">TAGS (coma)</label><input id="aTags" class="input" placeholder="GPS, Pagos, QR"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">CATEGORÍA</label><input id="aCat" class="input" placeholder="hotel, recargas, uber..."></div><div><label style="font-size:11px;font-weight:600">TIPO DE PAGO</label><select id="aPayType" class="input"><option value="unico">Pago único</option><option value="mensual">Mensualidad</option><option value="anual">Anual</option></select></div></div>
+<label style="font-size:11px;font-weight:600">DESCRIPCIÓN</label><textarea id="aDesc" class="input" style="min-height:70px" placeholder="Describe la plataforma..."></textarea>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL DESDE CELULAR</label><div style="display:flex;gap:10px;align-items:center;margin-top:8px"><img id="aImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec;display:none"><div style="flex:1"><input type="file" id="aImgFile" accept="image/*" style="display:none" onchange="uploadPlatImg(this)"><div class="uploadBox" onclick="document.getElementById('aImgFile').click()">📸 Subir imagen principal</div><input id="aImg" type="hidden"></div></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS DESDE CELULAR - SE ACTUALIZA AL INSTANTE</label><div style="margin-top:8px"><input type="file" id="aGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadGallery(this)"><div class="uploadBox" onclick="document.getElementById('aGalleryFiles').click()">🖼️ Seleccionar 7 fotos (celular)</div><div id="galleryCount" style="font-size:11px;color:#6b7280;margin-top:6px">0 / 7 fotos seleccionadas</div><div id="aGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
+<label style="font-size:11px;font-weight:600">URL DEMO</label><input id="aUrl" class="input" placeholder="https://tu-demo.com">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">PRECIO</label><input id="aPrice" class="input" placeholder="$499"></div><div><label style="font-size:11px;font-weight:600">TAGS</label><input id="aTags" class="input" placeholder="GPS, Pagos, QR"></div></div>
 <label style="font-size:12px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="aMost" checked> Marcar como más usada</label>
-<div style="display:flex;gap:10px"><button class="btn btn-quote" style="flex:1;height:46px" onclick="savePlatform()">💾 Guardar producto</button><button class="btn btn-view" style="flex:1;height:46px" onclick="clearForm()">Limpiar</button></div>
-<div style="font-size:11px;color:#16a34a;display:none" id="platMsg">✓ Producto guardado</div>
+<button class="btn btn-quote" style="height:48px;width:100%" onclick="savePlatform()">💾 Guardar producto</button>
+<div style="font-size:11px;color:#16a34a;display:none" id="platMsg">✓ Guardado</div>
 </div>
-<h4 style="font-size:12px;color:#6b7280;margin-top:10px">MIS PRODUCTOS - EDITAR / ELIMINAR</h4>
-<div id="adminList" style="display:grid;gap:10px"></div>
+
+<div id="platEditBox" style="display:none">
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">SELECCIONA UN PRODUCTO PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div></div>
+<div id="editFormBox" style="background:white;border:1px solid var(--black);border-radius:14px;padding:14px;display:none">
+<h4 style="font-size:12px;margin-bottom:10px">EDITANDO: <span id="editNameLabel"></span></h4>
+<label style="font-size:11px;font-weight:600">NOMBRE</label><input id="eName" class="input">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">CATEGORÍA</label><input id="eCat" class="input"></div><div><label style="font-size:11px;font-weight:600">TIPO PAGO</label><select id="ePayType" class="input"><option value="unico">Pago único</option><option value="mensual">Mensualidad</option><option value="anual">Anual</option></select></div></div>
+<label style="font-size:11px;font-weight:600">DESCRIPCIÓN</label><textarea id="eDesc" class="input" style="min-height:70px"></textarea>
+<label style="font-size:11px;font-weight:600">URL DEMO</label><input id="eUrl" class="input">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">PRECIO</label><input id="ePrice" class="input"></div><div><label style="font-size:11px;font-weight:600">TAGS</label><input id="eTags" class="input"></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:10px;margin-top:8px"><label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL</label><div style="display:flex;gap:8px;align-items:center;margin-top:8px"><img id="eImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec"><div style="flex:1"><input type="file" id="eImgFile" accept="image/*" style="display:none" onchange="uploadEditImg(this)"><div class="uploadBox" onclick="document.getElementById('eImgFile').click()">📸 Cambiar imagen principal</div><input id="eImg" type="hidden"></div></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:10px"><label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS</label><div style="margin-top:8px"><input type="file" id="eGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadEditGallery(this)"><div class="uploadBox" onclick="document.getElementById('eGalleryFiles').click()">🖼️ Cambiar 7 fotos</div><div id="eGalleryCount" style="font-size:11px;color:#6b7280;margin-top:6px"></div><div id="eGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><button class="btn btn-quote" style="height:48px" onclick="saveEdit()">💾 Guardar cambios</button><button class="btn btn-view" style="height:48px" onclick="cancelEdit()">Cancelar</button></div>
 </div>
+</div>
+</div>
+
 <div class="form" id="panelAcc" style="display:none">
-<h4 style="font-size:12px;color:#6b7280">CAMBIAR USUARIO Y CONTRASEÑA</h4>
+<h4 style="font-size:12px;color:#6b7280">ACCESO</h4>
 <div style="border:1px solid #eaeaec;border-radius:12px;padding:14px;background:#fcfcfd;display:grid;gap:10px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="newUser" class="input" placeholder="Nuevo usuario"><input id="newPass" class="input" placeholder="Nueva contraseña"></div><button class="btn btn-view" style="width:100%" onclick="updateCreds()">Actualizar acceso</button><div style="font-size:11px;color:#6b7280">Actual: <span id="currentCreds"></span></div></div>
 </div>
 </div></div>
 <script>
 let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [
-{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa para gestión de reservas directas.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', gallery:['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800','https://images.unsplash.com/photo-1551882547-b79c5d7d1a2a?q=80&w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800','https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800','https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800','https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800','https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800'], url:'https://example.com/hotel', price:'$499', payType:'unico', tags:['Reservas','Pagos'], top:true },
-{ id:2, cat:'recargas', nombre:'KIGO RECARGAS MAYORISTA', desc:'Sistema mayorista de recargas con API y comisiones.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', gallery:['https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800','https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=800','https://images.unsplash.com/photo-1556740772-1a741367b93e?q=80&w=800','https://images.unsplash.com/photo-1580048915913-7e8b5d2e73d6?q=80&w=800','https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800','https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800','https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800'], url:'https://example.com/recargas', price:'$299', payType:'unico', tags:['API','Saldo'], top:true },
-{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR por mesa y comandas desde celular.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', gallery:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800','https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800','https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800','https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800','https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800'], url:'https://example.com/resto', price:'$349', payType:'unico', tags:['QR','Cocina'], top:true },
-{ id:4, cat:'delivery', nombre:'KIGO DELIVERY TRACKING', desc:'Delivery con GPS en vivo y prueba de entrega.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', gallery:['https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800','https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800','https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800','https://images.unsplash.com/photo-1498579150354-977474740a97?q=80&w=800','https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=800','https://images.unsplash.com/photo-1506354666786-959d6d497f1a?q=80&w=800'], url:'https://example.com/delivery', price:'$399', payType:'unico', tags:['GPS','Repartidores'], top:true },
-{ id:5, cat:'uber', nombre:'KIGO UBER CLONE', desc:'App tipo Uber completa cliente y conductor.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', gallery:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800','https://images.unsplash.com/photo-1519003722824-194243704534?q=80&w=800','https://images.unsplash.com/photo-1485575301923-ff8f5bad1804?q=80&w=800','https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800','https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800','https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=800','https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800'], url:'https://example.com/uber', price:'$899', payType:'unico', tags:['GPS en vivo','Tarifa por km'], top:true },
+{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', gallery:['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800','https://images.unsplash.com/photo-1551882547-b79c5d7d1a2a?q=80&w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800','https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800','https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800','https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800','https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800'], url:'https://example.com/hotel', price:'$499', payType:'unico', tags:['Reservas','Pagos'], top:true },
+{ id:2, cat:'recargas', nombre:'KIGO RECARGAS', desc:'Sistema mayorista recargas.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', gallery:['https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800','https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=800','https://images.unsplash.com/photo-1556740772-1a741367b93e?q=80&w=800','https://images.unsplash.com/photo-1580048915913-7e8b5d2e73d6?q=80&w=800','https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800','https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800','https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800'], url:'https://example.com/recargas', price:'$299', payType:'unico', tags:['API','Saldo'], top:true },
+{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR por mesa.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', gallery:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800','https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800','https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800','https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800','https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800'], url:'https://example.com/resto', price:'$349', payType:'unico', tags:['QR','Cocina'], top:true },
+{ id:4, cat:'delivery', nombre:'KIGO DELIVERY', desc:'Delivery GPS en vivo.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', gallery:['https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800','https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800','https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800','https://images.unsplash.com/photo-1498579150354-977474740a97?q=80&w=800','https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=800','https://images.unsplash.com/photo-1506354666786-959d6d497f1a?q=80&w=800'], url:'https://example.com/delivery', price:'$399', payType:'unico', tags:['GPS'], top:true },
+{ id:5, cat:'uber', nombre:'KIGO UBER CLONE', desc:'App tipo Uber.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', gallery:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800','https://images.unsplash.com/photo-1519003722824-194243704534?q=80&w=800','https://images.unsplash.com/photo-1485575301923-ff8f5bad1804?q=80&w=800','https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800','https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800','https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=800','https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800'], url:'https://example.com/uber', price:'$899', payType:'unico', tags:['GPS en vivo'], top:true },
 ];
-let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo. Entra a la demo real y cotiza en segundos.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026", logo:"", accent:"#f59e0b"};
+let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
 let creds = JSON.parse(localStorage.getItem('kigo_creds')||'{"user":"admin","pass":"kigo123"}');
-let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[];
+let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[], editGallery=[];
 
 function save(){ localStorage.setItem('kigo_showroom', JSON.stringify(platforms)); localStorage.setItem('kigo_site_v2', JSON.stringify(siteConfig)); localStorage.setItem('kigo_creds', JSON.stringify(creds)); }
 function applySite(){
@@ -169,11 +168,7 @@ function applySite(){
  document.getElementById('colorDemoAccent').style.color=siteConfig.accent;
  document.getElementById('currentCreds').innerText=creds.user+' / '+creds.pass;
 }
-function uploadLogo(input){
- if(input.files && input.files[0]){
-  let r=new FileReader(); r.onload=e=>{ siteConfig.logo=e.target.result; applySite(); save(); showSave('✓ Logo subido'); }; r.readAsDataURL(input.files[0]);
- }
-}
+function uploadLogo(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ siteConfig.logo=e.target.result; applySite(); save(); showSave('✓ Logo subido'); }; r.readAsDataURL(input.files[0]); } }
 function removeLogo(){ siteConfig.logo=""; applySite(); save(); }
 function syncColorText(v){ document.getElementById('accentColor').value=v; updateLive(); }
 function updateLive(){
@@ -190,14 +185,22 @@ function updateLive(){
  save(); showSave('✓ Guardado en tiempo real');
 }
 function showSave(t){ let m=document.getElementById('savedMsg'); if(m){ m.innerText=t; m.style.display='block'; setTimeout(()=>m.style.display='none',1500);} }
-function saveLive(){ save(); showSave('✓ Guardado correctamente'); }
-function resetSite(){ if(confirm('Resetear?')){ localStorage.removeItem('kigo_site_v2'); siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"}; applySite(); save(); } }
+function saveLive(){ save(); showSave('✓ Guardado'); }
+function resetSite(){ if(confirm('Resetear?')){ localStorage.removeItem('kigo_site_v2'); siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas.", search:"Buscar...", footer:"Plataformas profesionales • 2026", logo:"", accent:"#f59e0b"}; applySite(); save(); } }
 function switchTab(t){
  document.querySelectorAll('.adminTab').forEach(b=>b.classList.remove('active'));
  document.getElementById('panelMod').style.display='none'; document.getElementById('panelPlat').style.display='none'; document.getElementById('panelAcc').style.display='none';
  if(t==='mod'){ document.getElementById('tabMod').classList.add('active'); document.getElementById('panelMod').style.display='grid'; }
- if(t==='plat'){ document.getElementById('tabPlat').classList.add('active'); document.getElementById('panelPlat').style.display='grid'; }
+ if(t==='plat'){ document.getElementById('tabPlat').classList.add('active'); document.getElementById('panelPlat').style.display='grid'; setPlatMode('add'); }
  if(t==='acc'){ document.getElementById('tabAcc').classList.add('active'); document.getElementById('panelAcc').style.display='grid'; }
+}
+function setPlatMode(mode){
+ document.getElementById('platTabAdd').classList.toggle('active', mode==='add');
+ document.getElementById('platTabEdit').classList.toggle('active', mode==='edit');
+ document.getElementById('platAddBox').style.display= mode==='add'? 'grid' : 'none';
+ document.getElementById('platEditBox').style.display= mode==='edit'? 'block' : 'none';
+ if(mode==='edit'){ renderAdminList(); document.getElementById('editFormBox').style.display='none'; }
+ if(mode==='add'){ clearForm(); }
 }
 function catLabel(c){ if(c==='todo') return 'TODO'; if(c==='uber') return 'APLICACIÓN TIPO UBER'; return c.toUpperCase(); }
 function payLabel(t){ if(t==='mensual') return 'mensualidad'; if(t==='anual') return 'anual'; return 'pago único'; }
@@ -209,14 +212,14 @@ function renderGrid(){
  document.getElementById('grid').innerHTML=list.map(p=>`<div class="card"><div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div><div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} <span>• ${payLabel(p.payType||'unico')}</span></div><div class="meta">${p.tags.map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="handleView(this,${p.id})">Ver</button><button class="btn btn-quote" onclick="handleQuote(this,${p.id})">Cotizar</button></div></div></div>`).join('');
  renderMost();
 }
- function handleView(btn,id){ btn.classList.add('neon-active'); setTimeout(()=>btn.classList.remove('neon-active'),900); openView(id); }
+function handleView(btn,id){ btn.classList.add('neon-active'); setTimeout(()=>btn.classList.remove('neon-active'),900); openView(id); }
 function handleQuote(btn,id){ btn.classList.add('neon-active'); setTimeout(()=>btn.classList.remove('neon-active'),900); openQuote(id); }
-function renderMost(){ document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView(${p.id})"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${p.desc.substring(0,68)}...</p><div class="miniPrice">${p.price} • ${payLabel(p.payType||'unico')}</div></div></div>`).join(''); setTimeout(initMostZoom,120); }
+function renderMost(){ document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView(${p.id})"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${p.desc.substring(0,60)}...</p><div class="miniPrice">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120); }
 function initMostZoom(){ const s=document.getElementById('mostSlider'); if(!s) return; function up(){ const r=s.getBoundingClientRect(); const c=r.left+r.width/2; let cl=null,mn=Infinity; s.querySelectorAll('.miniCard').forEach(card=>{ const rr=card.getBoundingClientRect(); const cc=rr.left+rr.width/2; const d=Math.abs(c-cc); if(d<mn){mn=d;cl=card;}}); s.querySelectorAll('.miniCard').forEach(x=>x.classList.remove('active')); if(cl) cl.classList.add('active'); } s.addEventListener('scroll',up,{passive:true}); up(); s.scrollLeft=20; }
-function openView(id){
+ function openView(id){
  let p=platforms.find(x=>x.id===id); currentGallery=p.gallery||[p.img,p.img,p.img,p.img,p.img,p.img,p.img]; galleryIndex=0;
  document.getElementById('vTitle').innerText=p.nombre; document.getElementById('vName').innerText=p.nombre; document.getElementById('vCat').innerText=catLabel(p.cat); document.getElementById('vCat2').innerText=catLabel(p.cat);
- document.getElementById('vDesc').innerText=p.desc; document.getElementById('vPrice').innerText=p.price; document.getElementById('vPayLabel').innerText=p.payType==='mensual'?'MENSUALIDAD':'PRECIO DESDE'; document.getElementById('vPaySub').innerText=payLabel(p.payType||'unico')+' • sin comisiones ocultas';
+ document.getElementById('vDesc').innerText=p.desc; document.getElementById('vPrice').innerText=p.price; document.getElementById('vPayLabel').innerText=p.payType==='mensual'?'MENSUALIDAD':'PRECIO DESDE'; document.getElementById('vPaySub').innerText=payLabel(p.payType||'unico');
  document.getElementById('vTags').innerHTML=p.tags.map(t=>`<i style="font-style:normal;font-size:11px;background:#f8f8f9;border:1px solid #ececef;padding:6px 10px;border-radius:999px">${t}</i>`).join('');
  document.getElementById('vGallery').innerHTML=currentGallery.map(s=>`<img class="galleryImg" src="${s}">`).join('');
  document.getElementById('vDots').innerHTML=currentGallery.map((_,i)=>`<div class="vDot ${i===0?'active':''}"></div>`).join('');
@@ -229,7 +232,7 @@ function updateGalleryUI(){ document.querySelectorAll('.vDot').forEach((d,i)=>d.
 function galleryPrev(){ if(galleryIndex>0){ galleryIndex--; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
 function galleryNext(){ if(galleryIndex<currentGallery.length-1){ galleryIndex++; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
 function closeView(){ document.getElementById('viewModal').style.display='none'; document.getElementById('vFrame').src=''; }
-function openQuote(id){ let p=platforms.find(x=>x.id===id); window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre+' - '+p.price+' - '+payLabel(p.payType))}`,'_blank'); }
+function openQuote(id){ let p=platforms.find(x=>x.id===id); window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre)}`,'_blank'); }
 function openLogin(){ if(isLogged){ openAdmin(); } else { document.getElementById('loginModal').style.display='flex'; } }
 function closeLogin(){ document.getElementById('loginModal').style.display='none'; }
 function doLogin(){ let u=document.getElementById('loginUser').value,pw=document.getElementById('loginPass').value; if(u===creds.user&&pw===creds.pass){ isLogged=true; closeLogin(); openAdmin(); } else alert('Datos incorrectos'); }
@@ -237,55 +240,77 @@ function logout(){ isLogged=false; closeAdmin(); }
 function openAdmin(){ if(!isLogged) return openLogin(); document.getElementById('adminModal').style.display='flex'; renderAdminList(); applySite(); switchTab('mod'); }
 function closeAdmin(){ document.getElementById('adminModal').style.display='none'; }
 function updateCreds(){ let nu=document.getElementById('newUser').value,np=document.getElementById('newPass').value; if(nu) creds.user=nu; if(np) creds.pass=np; save(); applySite(); alert('Actualizado: '+creds.user); }
-function uploadPlatImg(input){
- if(input.files && input.files[0]){
-  let r=new FileReader(); r.onload=e=>{
-   document.getElementById('aImg').value=e.target.result;
-   let prev=document.getElementById('aImgPreview'); prev.src=e.target.result; prev.style.display='block';
-  }; r.readAsDataURL(input.files[0]);
- }
-}
+
+// UPLOADS CORREGIDOS - 7 FOTOS REALES
+function uploadPlatImg(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('aImg').value=e.target.result; let prev=document.getElementById('aImgPreview'); prev.src=e.target.result; prev.style.display='block'; }; r.readAsDataURL(input.files[0]); } }
 function uploadGallery(input){
  if(!input.files) return;
- tempGallery=[];
- let preview=document.getElementById('aGalleryPreview'); preview.innerHTML='';
- Array.from(input.files).slice(0,7).forEach(file=>{
-  let r=new FileReader(); r.onload=e=>{
+ let files=Array.from(input.files).slice(0,7);
+ tempGallery=[]; let preview=document.getElementById('aGalleryPreview'); preview.innerHTML='';
+ document.getElementById('galleryCount').innerText=files.length+' / 7 fotos seleccionadas';
+ let loaded=0;
+ files.forEach(file=>{
+  let r=new FileReader();
+  r.onload=e=>{
    tempGallery.push(e.target.result);
+   loaded++;
    let img=document.createElement('img'); img.src=e.target.result; img.style.width='56px'; img.style.height='56px'; img.style.borderRadius='10px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec';
    preview.appendChild(img);
-  }; r.readAsDataURL(file);
+   if(loaded===files.length){ document.getElementById('galleryCount').innerText=tempGallery.length+' / 7 fotos listas ✓'; }
+  };
+  r.readAsDataURL(file);
  });
 }
-function clearForm(){ editingId=null; ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
+function clearForm(){ ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; document.getElementById('galleryCount').innerText='0 / 7 fotos seleccionadas'; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
 function savePlatform(){
  let name=document.getElementById('aName').value.trim(); if(!name){ alert('Pon nombre'); return; }
  let img=document.getElementById('aImg').value || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
- let gallery = tempGallery.length>=1? tempGallery : [img,img,img,img,img,img,img];
- if(gallery.length<7){ while(gallery.length<7) gallery.push(img); }
- let obj={ id:editingId||Date.now(), cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked };
- let idx=platforms.findIndex(x=>x.id===obj.id); if(idx>=0){ if(tempGallery.length===0) obj.gallery=platforms[idx].gallery; platforms[idx]=obj; } else platforms.push(obj);
- save(); renderFilters(); renderGrid(); renderAdminList(); clearForm();
- let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Producto guardado - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
+ let gallery = tempGallery.length>=1? [...tempGallery] : [img,img,img,img,img,img,img];
+ while(gallery.length<7) gallery.push(img);
+ let obj={ id:Date.now(), cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked };
+ platforms.push(obj); save(); renderFilters(); renderGrid(); renderAdminList(); clearForm();
+ let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Producto agregado - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
 }
 function renderAdminList(){
  document.getElementById('adminList').innerHTML=platforms.map(p=>`
- <div style="display:flex;gap:12px;align-items:center;border:1px solid #eaeaec;border-radius:14px;padding:12px;background:white">
- <img src="${p.img}" style="width:52px;height:52px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec">
- <div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</b><span style="font-size:11px;color:#6b7280">${catLabel(p.cat)} • ${p.price} • ${payLabel(p.payType||'unico')} • ${p.gallery.length} fotos</span></div>
- <div style="display:flex;gap:6px"><button class="btn btn-view" style="height:38px;padding:0 14px" onclick="editP(${p.id})">✎ Editar</button><button class="btn btn-quote" style="height:38px;padding:0 14px;background:#dc2626;border-color:#dc2626" onclick="delP(${p.id})">🗑 Eliminar</button></div>
+ <div style="display:flex;gap:12px;align-items:center;border:1px solid #eaeaec;border-radius:14px;padding:12px;background:white;cursor:pointer" onclick="selectForEdit(${p.id})">
+ <img src="${p.img}" style="width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec">
+ <div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</b><span style="font-size:11px;color:#6b7280">${catLabel(p.cat)} • ${p.price} • ${p.gallery.length} fotos</span></div>
+ <div style="display:flex;gap:6px"><button class="btn btn-view" style="height:36px;padding:0 12px;font-size:11px" onclick="event.stopPropagation();selectForEdit(${p.id})">✎ Editar</button><button class="btn btn-quote" style="height:36px;padding:0 12px;background:#dc2626;border-color:#dc2626;font-size:11px" onclick="event.stopPropagation();delP(${p.id})">Eliminar</button></div>
  </div>`).join('');
 }
-function editP(id){
- let p=platforms.find(x=>x.id===id); editingId=id;
- document.getElementById('aName').value=p.nombre; document.getElementById('aCat').value=p.cat; document.getElementById('aDesc').value=p.desc;
- document.getElementById('aImg').value=p.img; let prev=document.getElementById('aImgPreview'); prev.src=p.img; prev.style.display='block';
- document.getElementById('aUrl').value=p.url; document.getElementById('aPrice').value=p.price; document.getElementById('aPayType').value=p.payType||'unico';
- document.getElementById('aTags').value=p.tags.join(', '); document.getElementById('aMost').checked=p.top;
- tempGallery=p.gallery||[]; let gp=document.getElementById('aGalleryPreview'); gp.innerHTML=''; tempGallery.forEach(src=>{ let img=document.createElement('img'); img.src=src; img.style.width='56px'; img.style.height='56px'; img.style.borderRadius='10px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; gp.appendChild(img); });
- switchTab('plat');
+function selectForEdit(id){
+ let p=platforms.find(x=>x.id===id); if(!p) return;
+ editingId=id;
+ document.getElementById('editNameLabel').innerText=p.nombre;
+ document.getElementById('eName').value=p.nombre; document.getElementById('eCat').value=p.cat; document.getElementById('eDesc').value=p.desc;
+ document.getElementById('eUrl').value=p.url; document.getElementById('ePrice').value=p.price; document.getElementById('ePayType').value=p.payType||'unico';
+ document.getElementById('eTags').value=p.tags.join(', '); document.getElementById('eImg').value=p.img;
+ document.getElementById('eImgPreview').src=p.img;
+ editGallery=[...p.gallery]; let gp=document.getElementById('eGalleryPreview'); gp.innerHTML=''; editGallery.forEach(src=>{ let img=document.createElement('img'); img.src=src; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; gp.appendChild(img); });
+ document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos actuales';
+ document.getElementById('editFormBox').style.display='block'; document.getElementById('editFormBox').scrollIntoView({behavior:'smooth'});
 }
-function delP(id){ if(confirm('¿Eliminar este producto?')){ platforms=platforms.filter(x=>x.id!==id); save(); renderFilters(); renderGrid(); renderAdminList(); } }
+function uploadEditImg(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('eImg').value=e.target.result; document.getElementById('eImgPreview').src=e.target.result; }; r.readAsDataURL(input.files[0]); } }
+function uploadEditGallery(input){
+ if(!input.files) return;
+ let files=Array.from(input.files).slice(0,7); editGallery=[]; let preview=document.getElementById('eGalleryPreview'); preview.innerHTML='';
+ let loaded=0; files.forEach(file=>{ let r=new FileReader(); r.onload=e=>{ editGallery.push(e.target.result); loaded++; let img=document.createElement('img'); img.src=e.target.result; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; preview.appendChild(img); if(loaded===files.length){ document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos nuevas ✓'; } }; r.readAsDataURL(file); });
+}
+function saveEdit(){
+ if(!editingId){ alert('Selecciona un producto'); return; }
+ let p=platforms.find(x=>x.id===editingId); if(!p) return;
+ p.nombre=document.getElementById('eName').value; p.cat=document.getElementById('eCat').value.toLowerCase(); p.desc=document.getElementById('eDesc').value;
+ p.url=document.getElementById('eUrl').value; p.price=document.getElementById('ePrice').value; p.payType=document.getElementById('ePayType').value;
+ p.tags=document.getElementById('eTags').value.split(',').map(s=>s.trim()).filter(Boolean);
+ p.img=document.getElementById('eImg').value||p.img;
+ if(editGallery.length>=1) p.gallery=[...editGallery];
+ while(p.gallery.length<7) p.gallery.push(p.img);
+ save(); renderFilters(); renderGrid(); renderAdminList();
+ document.getElementById('editFormBox').style.display='none'; alert('✓ Cambios guardados: '+p.nombre);
+}
+function cancelEdit(){ document.getElementById('editFormBox').style.display='none'; editingId=null; }
+function delP(id){ if(confirm('¿Eliminar este producto?')){ platforms=platforms.filter(x=>x.id!==id); save(); renderFilters(); renderGrid(); renderAdminList(); if(editingId===id) cancelEdit(); } }
 document.getElementById('search').addEventListener('input',renderGrid);
 applySite(); renderFilters(); renderGrid();
 </script>
