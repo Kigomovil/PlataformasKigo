@@ -5,7 +5,7 @@
 <title>KIGO Showroom</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ffffff;--text:#0a0a0a;--muted:#6b7280;--line:#eaeaec;--soft:#f6f6f7;--black:#0a0a0a;--accent:#f59e0b}
+:root{--bg:#ffffff;--text:#0a0a0a;--muted:#6b7280;--line:#eaeaec;--soft:#f6f6f7;--black:#0a0a0a;--accent:#f59e0b;--neon:#00ff88}
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 body{background:var(--bg);color:var(--text)}
 header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
@@ -16,7 +16,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 .thumb{height:165px;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}
 .tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:999px;font-size:10px;font-weight:700}
 .content{padding:14px}.content h3{font-family:Plus Jakarta Sans;font-size:17px;font-weight:700;margin-bottom:6px}.content p{color:var(--muted);font-size:12.5px;line-height:1.5;min-height:60px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.price{font-size:13.5px;font-weight:700;margin:10px 0 6px}.meta{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 12px}.meta i{font-style:normal;font-size:10px;background:#f8f8f9;border:1px solid #ececef;padding:5px 9px;border-radius:999px}
+.price{font-size:13.5px;font-weight:700;margin:10px 0 6px}.price.neon{color:var(--neon);text-shadow:0 0 12px rgba(0,255,136,.7),0 0 20px rgba(0,255,136,.4);font-weight:800}
+.meta{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 12px}.meta i{font-style:normal;font-size:10px;background:#f8f8f9;border:1px solid #ececef;padding:5px 9px;border-radius:999px}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .btn{height:42px;border-radius:12px;border:1px solid var(--line);font-weight:700;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.25s}
 .btn-view{background:white;box-shadow:0 6px 16px rgba(0,0,0,.06)}.btn-view.neon-active{background:#e0f2fe;color:#0284c7;border-color:#38bdf8;box-shadow:0 0 20px rgba(56,189,248,.7)}
@@ -41,6 +42,8 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 .uploadBox{border:2px dashed #d1d5db;border-radius:14px;padding:12px;text-align:center;background:white;cursor:pointer;transition:.2s;font-size:12px}
 .uploadBox:hover{border-color:var(--black);background:#fcfcfd}
 .platSubTabs{display:flex;gap:8px;margin-bottom:12px}.platSubTab{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:white;font-weight:700;font-size:12px;cursor:pointer}.platSubTab.active{background:var(--black);color:white}
+.viewCloseX{width:38px;height:38px;border-radius:12px;background:#0a0a0a;color:white;display:grid;place-items:center;font-weight:700;cursor:pointer;border:1px solid #222}
+.viewBack{width:38px;height:38px;border-radius:12px;background:white;border:1px solid #eaeaec;display:grid;place-items:center;cursor:pointer;font-weight:700}
 @media(max-width:768px){
 .modal{padding:8px;align-items:flex-start;overflow-y:auto}
 .modal.centered{align-items:center!important;justify-content:center!important}
@@ -60,7 +63,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div class="mostSection"><div class="mostHead"><h2>Las más usadas</h2><span>Desliza → la del centro se amplía</span></div><div class="slider" id="mostSlider"></div></div>
 <footer><div class="footerBrand"><span class="black">Desarrollo</span> <span class="red">Kigo Apps</span></div><div class="footerSub" id="footerText">Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026</div></footer>
 
-<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><b id="vTitle">Demo</b><button class="iconBtn" onclick="closeView()">✕</button></div>
+<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><div style="display:flex;gap:10px;align-items:center"><button class="viewBack" onclick="closeView()">←</button><b id="vTitle">Demo</b></div><button class="viewCloseX" onclick="closeView()">✕</button></div>
 <div class="viewWrap">
 <div class="viewGalleryWrap">
 <div id="vGallery" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;scroll-behavior:smooth"></div>
@@ -72,7 +75,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px;letter-spacing:.5px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;letter-spacing:.5px">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div>
-<div style="padding:14px;border:1px solid #111;border-radius:14px;background:#0a0a0a;color:white;margin-bottom:14px"><div style="font-size:11px;color:#9ca3af" id="vPayLabel">PRECIO DESDE</div><div style="font-weight:800;font-size:20px" id="vPrice">$0</div><div style="font-size:11px;color:#9ca3af;margin-top:4px" id="vPaySub">pago único</div></div>
+<div style="padding:14px;border:1px solid #111;border-radius:14px;background:#0a0a0a;color:white;margin-bottom:14px"><div style="font-size:11px;color:#9ca3af" id="vPayLabel">PRECIO DESDE</div><div style="font-weight:800;font-size:22px;color:#00ff88;text-shadow:0 0 12px rgba(0,255,136,.8),0 0 24px rgba(0,255,136,.5)" id="vPrice">$0</div><div style="font-size:11px;color:#9ca3af;margin-top:4px" id="vPaySub">pago único</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div>
 <div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div>
 </div></div></div></div>
@@ -111,7 +114,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">CATEGORÍA</label><input id="aCat" class="input" placeholder="hotel, recargas, uber..."></div><div><label style="font-size:11px;font-weight:600">TIPO DE PAGO</label><select id="aPayType" class="input"><option value="unico">Pago único</option><option value="mensual">Mensualidad</option><option value="anual">Anual</option></select></div></div>
 <label style="font-size:11px;font-weight:600">DESCRIPCIÓN</label><textarea id="aDesc" class="input" style="min-height:70px" placeholder="Describe la plataforma..."></textarea>
 <div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL DESDE CELULAR</label><div style="display:flex;gap:10px;align-items:center;margin-top:8px"><img id="aImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec;display:none"><div style="flex:1"><input type="file" id="aImgFile" accept="image/*" style="display:none" onchange="uploadPlatImg(this)"><div class="uploadBox" onclick="document.getElementById('aImgFile').click()">📸 Subir imagen principal</div><input id="aImg" type="hidden"></div></div></div>
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS DESDE CELULAR - SE ACTUALIZA AL INSTANTE</label><div style="margin-top:8px"><input type="file" id="aGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadGallery(this)"><div class="uploadBox" onclick="document.getElementById('aGalleryFiles').click()">🖼️ Seleccionar 7 fotos (celular)</div><div id="galleryCount" style="font-size:11px;color:#6b7280;margin-top:6px">0 / 7 fotos seleccionadas</div><div id="aGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS - DESDE CELULAR</label><div style="margin-top:8px"><input type="file" id="aGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadGallery(this)"><div class="uploadBox" onclick="document.getElementById('aGalleryFiles').click()">🖼️ Seleccionar 7 fotos</div><div id="galleryCount" style="font-size:11px;color:#6b7280;margin-top:6px">0 / 7 fotos</div><div id="aGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
 <label style="font-size:11px;font-weight:600">URL DEMO</label><input id="aUrl" class="input" placeholder="https://tu-demo.com">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">PRECIO</label><input id="aPrice" class="input" placeholder="$499"></div><div><label style="font-size:11px;font-weight:600">TAGS</label><input id="aTags" class="input" placeholder="GPS, Pagos, QR"></div></div>
 <label style="font-size:12px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="aMost" checked> Marcar como más usada</label>
@@ -120,7 +123,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 </div>
 
 <div id="platEditBox" style="display:none">
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">SELECCIONA UN PRODUCTO PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">LISTA DE PRODUCTOS - TOCA PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div><div id="emptyMsg" style="display:none;text-align:center;padding:20px;color:#6b7280;font-size:13px">No hay productos aún. Ve a Agregar producto para crear el primero.</div></div>
 <div id="editFormBox" style="background:white;border:1px solid var(--black);border-radius:14px;padding:14px;display:none">
 <h4 style="font-size:12px;margin-bottom:10px">EDITANDO: <span id="editNameLabel"></span></h4>
 <label style="font-size:11px;font-weight:600">NOMBRE</label><input id="eName" class="input">
@@ -128,7 +131,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <label style="font-size:11px;font-weight:600">DESCRIPCIÓN</label><textarea id="eDesc" class="input" style="min-height:70px"></textarea>
 <label style="font-size:11px;font-weight:600">URL DEMO</label><input id="eUrl" class="input">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:11px;font-weight:600">PRECIO</label><input id="ePrice" class="input"></div><div><label style="font-size:11px;font-weight:600">TAGS</label><input id="eTags" class="input"></div></div>
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:10px;margin-top:8px"><label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL</label><div style="display:flex;gap:8px;align-items:center;margin-top:8px"><img id="eImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec"><div style="flex:1"><input type="file" id="eImgFile" accept="image/*" style="display:none" onchange="uploadEditImg(this)"><div class="uploadBox" onclick="document.getElementById('eImgFile').click()">📸 Cambiar imagen principal</div><input id="eImg" type="hidden"></div></div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:10px;margin-top:8px"><label style="font-size:11px;font-weight:700">IMAGEN PRINCIPAL</label><div style="display:flex;gap:8px;align-items:center;margin-top:8px"><img id="eImgPreview" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec"><div style="flex:1"><input type="file" id="eImgFile" accept="image/*" style="display:none" onchange="uploadEditImg(this)"><div class="uploadBox" onclick="document.getElementById('eImgFile').click()">📸 Cambiar imagen</div><input id="eImg" type="hidden"></div></div></div>
 <div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:12px;padding:10px"><label style="font-size:11px;font-weight:700">GALERÍA 7 FOTOS</label><div style="margin-top:8px"><input type="file" id="eGalleryFiles" accept="image/*" multiple style="display:none" onchange="uploadEditGallery(this)"><div class="uploadBox" onclick="document.getElementById('eGalleryFiles').click()">🖼️ Cambiar 7 fotos</div><div id="eGalleryCount" style="font-size:11px;color:#6b7280;margin-top:6px"></div><div id="eGalleryPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><button class="btn btn-quote" style="height:48px" onclick="saveEdit()">💾 Guardar cambios</button><button class="btn btn-view" style="height:48px" onclick="cancelEdit()">Cancelar</button></div>
 </div>
@@ -141,13 +144,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 </div>
 </div></div>
 <script>
-let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [
-{ id:1, cat:'hotel', nombre:'KIGO HOTEL PRO', desc:'Plataforma hotelera completa.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800', gallery:['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800','https://images.unsplash.com/photo-1551882547-b79c5d7d1a2a?q=80&w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800','https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800','https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800','https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800','https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800'], url:'https://example.com/hotel', price:'$499', payType:'unico', tags:['Reservas','Pagos'], top:true },
-{ id:2, cat:'recargas', nombre:'KIGO RECARGAS', desc:'Sistema mayorista recargas.', img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800', gallery:['https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800','https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=800','https://images.unsplash.com/photo-1556740772-1a741367b93e?q=80&w=800','https://images.unsplash.com/photo-1580048915913-7e8b5d2e73d6?q=80&w=800','https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800','https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800','https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800'], url:'https://example.com/recargas', price:'$299', payType:'unico', tags:['API','Saldo'], top:true },
-{ id:3, cat:'restaurante', nombre:'KIGO RESTO QR', desc:'Menú QR por mesa.', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800', gallery:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800','https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800','https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800','https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800','https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800'], url:'https://example.com/resto', price:'$349', payType:'unico', tags:['QR','Cocina'], top:true },
-{ id:4, cat:'delivery', nombre:'KIGO DELIVERY', desc:'Delivery GPS en vivo.', img:'https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800', gallery:['https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800','https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800','https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800','https://images.unsplash.com/photo-1498579150354-977474740a97?q=80&w=800','https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=800','https://images.unsplash.com/photo-1506354666786-959d6d497f1a?q=80&w=800'], url:'https://example.com/delivery', price:'$399', payType:'unico', tags:['GPS'], top:true },
-{ id:5, cat:'uber', nombre:'KIGO UBER CLONE', desc:'App tipo Uber.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', gallery:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800','https://images.unsplash.com/photo-1519003722824-194243704534?q=80&w=800','https://images.unsplash.com/photo-1485575301923-ff8f5bad1804?q=80&w=800','https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800','https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800','https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=800','https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800'], url:'https://example.com/uber', price:'$899', payType:'unico', tags:['GPS en vivo'], top:true },
-];
+let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [];
 let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
 let creds = JSON.parse(localStorage.getItem('kigo_creds')||'{"user":"admin","pass":"kigo123"}');
 let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[], editGallery=[];
@@ -204,20 +201,25 @@ function setPlatMode(mode){
 }
 function catLabel(c){ if(c==='todo') return 'TODO'; if(c==='uber') return 'APLICACIÓN TIPO UBER'; return c.toUpperCase(); }
 function payLabel(t){ if(t==='mensual') return 'mensualidad'; if(t==='anual') return 'anual'; return 'pago único'; }
-function renderFilters(){ let all=['todo',...new Set(platforms.map(p=>p.cat))]; document.getElementById('filters').innerHTML=all.map(c=>`<div class="chip ${filtro===c?'active':''}" onclick="setFilter('${c}')">${catLabel(c)}</div>`).join(''); }
+function renderFilters(){ let all=['todo',...new Set(platforms.map(p=>p.cat))]; if(all.length===1) all=['todo']; document.getElementById('filters').innerHTML=all.map(c=>`<div class="chip ${filtro===c?'active':''}" onclick="setFilter('${c}')">${catLabel(c)}</div>`).join(''); }
 function setFilter(c){ filtro=c; renderFilters(); renderGrid(); }
 function renderGrid(){
  let q=document.getElementById('search').value.toLowerCase();
  let list=platforms.filter(p=> (filtro==='todo'||p.cat===filtro) && (p.nombre.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
- document.getElementById('grid').innerHTML=list.map(p=>`<div class="card"><div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div><div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} <span>• ${payLabel(p.payType||'unico')}</span></div><div class="meta">${p.tags.map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="handleView(this,${p.id})">Ver</button><button class="btn btn-quote" onclick="handleQuote(this,${p.id})">Cotizar</button></div></div></div>`).join('');
+ if(list.length===0){ document.getElementById('grid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b7280"><div style="font-size:48px;margin-bottom:12px">📦</div><div style="font-weight:700;color:#111">No hay productos aún</div><div style="font-size:13px;margin-top:6px">Ve al admin → Plataformas → Agregar producto para crear el primero</div></div>`; }
+ else { document.getElementById('grid').innerHTML=list.map(p=>`<div class="card"><div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div><div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price neon">${p.price} <span style="color:#6b7280;font-size:11px">• ${payLabel(p.payType||'unico')}</span></div><div class="meta">${p.tags.map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="handleView(this,${p.id})">Ver</button><button class="btn btn-quote" onclick="handleQuote(this,${p.id})">Cotizar</button></div></div></div>`).join(''); }
  renderMost();
 }
 function handleView(btn,id){ btn.classList.add('neon-active'); setTimeout(()=>btn.classList.remove('neon-active'),900); openView(id); }
 function handleQuote(btn,id){ btn.classList.add('neon-active'); setTimeout(()=>btn.classList.remove('neon-active'),900); openQuote(id); }
-function renderMost(){ document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView(${p.id})"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${p.desc.substring(0,60)}...</p><div class="miniPrice">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120); }
+function renderMost(){
+ if(platforms.length===0){ document.getElementById('mostSlider').innerHTML=`<div style="padding:20px;color:#6b7280;font-size:13px">Aún no hay productos marcados como más usados</div>`; return; }
+ document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView(${p.id})"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${p.desc.substring(0,60)}...</p><div class="miniPrice" style="color:#00ff88;text-shadow:0 0 8px rgba(0,255,136,.6)">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120);
+}
 function initMostZoom(){ const s=document.getElementById('mostSlider'); if(!s) return; function up(){ const r=s.getBoundingClientRect(); const c=r.left+r.width/2; let cl=null,mn=Infinity; s.querySelectorAll('.miniCard').forEach(card=>{ const rr=card.getBoundingClientRect(); const cc=rr.left+rr.width/2; const d=Math.abs(c-cc); if(d<mn){mn=d;cl=card;}}); s.querySelectorAll('.miniCard').forEach(x=>x.classList.remove('active')); if(cl) cl.classList.add('active'); } s.addEventListener('scroll',up,{passive:true}); up(); s.scrollLeft=20; }
  function openView(id){
- let p=platforms.find(x=>x.id===id); currentGallery=p.gallery||[p.img,p.img,p.img,p.img,p.img,p.img,p.img]; galleryIndex=0;
+ let p=platforms.find(x=>x.id===id); if(!p) return;
+ currentGallery=p.gallery||[p.img,p.img,p.img,p.img,p.img,p.img,p.img]; galleryIndex=0;
  document.getElementById('vTitle').innerText=p.nombre; document.getElementById('vName').innerText=p.nombre; document.getElementById('vCat').innerText=catLabel(p.cat); document.getElementById('vCat2').innerText=catLabel(p.cat);
  document.getElementById('vDesc').innerText=p.desc; document.getElementById('vPrice').innerText=p.price; document.getElementById('vPayLabel').innerText=p.payType==='mensual'?'MENSUALIDAD':'PRECIO DESDE'; document.getElementById('vPaySub').innerText=payLabel(p.payType||'unico');
  document.getElementById('vTags').innerHTML=p.tags.map(t=>`<i style="font-style:normal;font-size:11px;background:#f8f8f9;border:1px solid #ececef;padding:6px 10px;border-radius:999px">${t}</i>`).join('');
@@ -232,7 +234,7 @@ function updateGalleryUI(){ document.querySelectorAll('.vDot').forEach((d,i)=>d.
 function galleryPrev(){ if(galleryIndex>0){ galleryIndex--; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
 function galleryNext(){ if(galleryIndex<currentGallery.length-1){ galleryIndex++; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
 function closeView(){ document.getElementById('viewModal').style.display='none'; document.getElementById('vFrame').src=''; }
-function openQuote(id){ let p=platforms.find(x=>x.id===id); window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre)}`,'_blank'); }
+function openQuote(id){ let p=platforms.find(x=>x.id===id); if(!p) return; window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre)}`,'_blank'); }
 function openLogin(){ if(isLogged){ openAdmin(); } else { document.getElementById('loginModal').style.display='flex'; } }
 function closeLogin(){ document.getElementById('loginModal').style.display='none'; }
 function doLogin(){ let u=document.getElementById('loginUser').value,pw=document.getElementById('loginPass').value; if(u===creds.user&&pw===creds.pass){ isLogged=true; closeLogin(); openAdmin(); } else alert('Datos incorrectos'); }
@@ -240,8 +242,6 @@ function logout(){ isLogged=false; closeAdmin(); }
 function openAdmin(){ if(!isLogged) return openLogin(); document.getElementById('adminModal').style.display='flex'; renderAdminList(); applySite(); switchTab('mod'); }
 function closeAdmin(){ document.getElementById('adminModal').style.display='none'; }
 function updateCreds(){ let nu=document.getElementById('newUser').value,np=document.getElementById('newPass').value; if(nu) creds.user=nu; if(np) creds.pass=np; save(); applySite(); alert('Actualizado: '+creds.user); }
-
-// UPLOADS CORREGIDOS - 7 FOTOS REALES
 function uploadPlatImg(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('aImg').value=e.target.result; let prev=document.getElementById('aImgPreview'); prev.src=e.target.result; prev.style.display='block'; }; r.readAsDataURL(input.files[0]); } }
 function uploadGallery(input){
  if(!input.files) return;
@@ -252,16 +252,14 @@ function uploadGallery(input){
  files.forEach(file=>{
   let r=new FileReader();
   r.onload=e=>{
-   tempGallery.push(e.target.result);
-   loaded++;
+   tempGallery.push(e.target.result); loaded++;
    let img=document.createElement('img'); img.src=e.target.result; img.style.width='56px'; img.style.height='56px'; img.style.borderRadius='10px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec';
    preview.appendChild(img);
    if(loaded===files.length){ document.getElementById('galleryCount').innerText=tempGallery.length+' / 7 fotos listas ✓'; }
-  };
-  r.readAsDataURL(file);
+  }; r.readAsDataURL(file);
  });
 }
-function clearForm(){ ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; document.getElementById('galleryCount').innerText='0 / 7 fotos seleccionadas'; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
+function clearForm(){ ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; document.getElementById('galleryCount').innerText='0 / 7 fotos'; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
 function savePlatform(){
  let name=document.getElementById('aName').value.trim(); if(!name){ alert('Pon nombre'); return; }
  let img=document.getElementById('aImg').value || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
@@ -272,7 +270,10 @@ function savePlatform(){
  let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Producto agregado - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
 }
 function renderAdminList(){
- document.getElementById('adminList').innerHTML=platforms.map(p=>`
+ let listEl=document.getElementById('adminList'); let emptyEl=document.getElementById('emptyMsg');
+ if(platforms.length===0){ listEl.innerHTML=''; if(emptyEl) emptyEl.style.display='block'; return; }
+ if(emptyEl) emptyEl.style.display='none';
+ listEl.innerHTML=platforms.map(p=>`
  <div style="display:flex;gap:12px;align-items:center;border:1px solid #eaeaec;border-radius:14px;padding:12px;background:white;cursor:pointer" onclick="selectForEdit(${p.id})">
  <img src="${p.img}" style="width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid #eaeaec">
  <div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</b><span style="font-size:11px;color:#6b7280">${catLabel(p.cat)} • ${p.price} • ${p.gallery.length} fotos</span></div>
