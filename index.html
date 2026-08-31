@@ -5,11 +5,11 @@
 <title>KIGO Showroom</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ffffff;--text:#0a0a0a;--muted:#6b7280;--line:#eaeaec;--soft:#f6f6f7;--black:#0a0a0a}
+:root{--bg:#ffffff;--text:#0a0a0a;--muted:#6b7280;--line:#eaeaec;--soft:#f6f6f7;--black:#0a0a0a;--accent:#f59e0b}
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 body{background:var(--bg);color:var(--text)}
 header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-family:Plus Jakarta Sans,Inter,sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.9px;display:flex;align-items:center;gap:10px}.logo i{font-style:normal;color:#f59e0b}
+.logo{font-family:Plus Jakarta Sans,Inter,sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.9px;display:flex;align-items:center;gap:10px}.logo i{font-style:normal;color:var(--accent)}.logo img{width:36px;height:36px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
 .adminIcon{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:white;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .grid{max-width:1200px;margin:0 auto;padding:20px 20px 30px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
 .card{background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.04)}
@@ -38,6 +38,8 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 .adminTabs{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);background:#fcfcfd;overflow-x:auto}
 .adminTab{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:white;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.2s}
 .adminTab.active{background:var(--black);color:white;border-color:var(--black)}
+.uploadBox{border:2px dashed #d1d5db;border-radius:14px;padding:14px;text-align:center;background:white;cursor:pointer;transition:.2s}
+.uploadBox:hover{border-color:var(--black);background:#fcfcfd}
 @media(max-width:768px){
 .modal{padding:8px;align-items:flex-start;overflow-y:auto}
 .modal.centered{align-items:center!important;justify-content:center!important}
@@ -74,25 +76,50 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div>
 </div></div></div></div>
 
-<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()">✕</button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:6px"><div style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Ingresa al centro de control</div></div><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button></div></div></div>
+<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()">✕</button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:6px"><div id="loginLogo" style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800;overflow:hidden">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Ingresa al centro de control</div></div><input id="loginUser" class="input" placeholder="Usuario"><input id="loginPass" type="password" class="input" placeholder="Contraseña"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button></div></div></div>
 
 <div class="modal" id="adminModal"><div class="box" style="max-width:800px"><div class="boxHead"><b>Panel Administrador</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()">✕</button></div></div>
 <div class="adminTabs"><button class="adminTab active" id="tabMod" onclick="switchTab('mod')">1. Modificaciones</button><button class="adminTab" id="tabPlat" onclick="switchTab('plat')">2. Plataformas</button><button class="adminTab" id="tabAcc" onclick="switchTab('acc')">3. Acceso</button></div>
+
 <div class="form" id="panelMod">
-<h4 style="font-size:12px;color:#6b7280;letter-spacing:.5px">MODIFICACIONES GENERALES - CAMBIO EN TIEMPO REAL</h4>
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:12px">
+<h4 style="font-size:12px;color:#6b7280;letter-spacing:.5px">MODIFICACIONES GENERALES - TIEMPO REAL</h4>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:14px">
+
+<div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px">
+<label style="font-size:11px;font-weight:700">LOGO DESDE CELULAR (Foto/Galería)</label>
+<div style="display:flex;gap:12px;align-items:center;margin-top:10px">
+<div id="logoPreview" style="width:56px;height:56px;border-radius:12px;background:#f3f3f5;border:1px solid #eaeaec;display:grid;place-items:center;font-weight:800;overflow:hidden">K</div>
+<div style="flex:1">
+<input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogo(this)">
+<div class="uploadBox" onclick="document.getElementById('logoFile').click()">📸 Tocar para subir logo desde galería/cámara</div>
+<div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-view" style="flex:1;height:36px;font-size:11px" onclick="removeLogo()">Quitar logo</button><span style="font-size:10px;color:#6b7280;align-self:center">Se guarda automático</span></div>
+</div>
+</div>
+</div>
+
+<div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px;display:grid;gap:8px">
+<label style="font-size:11px;font-weight:700">COLOR EXCLUSIVO PALABRA AMARILLA (SHOWROOM)</label>
+<div style="display:flex;gap:10px;align-items:center">
+<input type="color" id="accentColor" value="#f59e0b" style="width:56px;height:42px;border:1px solid #eaeaec;border-radius:10px;padding:4px;cursor:pointer" oninput="updateLive()">
+<div style="flex:1"><input id="accentHex" class="input" placeholder="#f59e0b" oninput="syncColorText(this.value)"><div style="font-size:10px;color:#6b7280;margin-top:4px">Cambia solo el color amarillo de arriba</div></div>
+<div id="colorDemo" style="padding:8px 12px;border-radius:999px;background:#0a0a0a;color:white;font-weight:800;font-size:12px">KIGO <span id="colorDemoAccent" style="color:#f59e0b">SHOWROOM</span></div>
+</div>
+</div>
+
 <label style="font-size:11px;font-weight:600">NOMBRE PLATAFORMA (Arriba a la izquierda)</label><input id="siteNameInput" class="input" placeholder="Ej: KIGO SHOWROOM" oninput="updateLive()">
-<label style="font-size:11px;font-weight:600">TÍTULO HERO (Título grande del inicio)</label><input id="heroTitleInput" class="input" placeholder="Ej: Explora. Prueba. Cotiza." oninput="updateLive()">
-<label style="font-size:11px;font-weight:600">SUBTÍTULO HERO (Texto debajo del título)</label><input id="heroSubInput" class="input" placeholder="Ej: Todas nuestras plataformas..." oninput="updateLive()">
-<label style="font-size:11px;font-weight:600">PLACEHOLDER BUSCADOR</label><input id="searchPlaceInput" class="input" placeholder="Buscar: hotel, recargas..." oninput="updateLive()">
-<label style="font-size:11px;font-weight:600">TEXTO FOOTER</label><input id="footerInput" class="input" placeholder="Plataformas profesionales..." oninput="updateLive()">
+<label style="font-size:11px;font-weight:600">TÍTULO HERO</label><input id="heroTitleInput" class="input" placeholder="Ej: Explora. Prueba. Cotiza." oninput="updateLive()">
+<label style="font-size:11px;font-weight:600">SUBTÍTULO HERO</label><input id="heroSubInput" class="input" placeholder="Subtítulo..." oninput="updateLive()">
+<label style="font-size:11px;font-weight:600">PLACEHOLDER BUSCADOR</label><input id="searchPlaceInput" class="input" placeholder="Buscar..." oninput="updateLive()">
+<label style="font-size:11px;font-weight:600">TEXTO FOOTER</label><input id="footerInput" class="input" placeholder="Footer..." oninput="updateLive()">
+
 <div style="display:flex;gap:10px"><button class="btn btn-quote" style="flex:1;height:44px" onclick="saveLive()">💾 Guardar cambios</button><button class="btn btn-view" style="flex:1;height:44px" onclick="resetSite()">Reset</button></div>
 <div style="font-size:11px;color:#16a34a;display:none" id="savedMsg">✓ Guardado y aplicado en tiempo real</div>
 </div>
 </div>
+
 <div class="form" id="panelPlat" style="display:none">
 <h4 style="font-size:12px;color:#6b7280">GESTIÓN DE PLATAFORMAS</h4>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="aName" class="input" placeholder="Nombre"><input id="aCat" class="input" placeholder="Categoría: hotel, recargas, restaurante, delivery, uber"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="aName" class="input" placeholder="Nombre"><input id="aCat" class="input" placeholder="Categoría"></div>
 <input id="aDesc" class="input" placeholder="Descripción detallada"><input id="aImg" class="input" placeholder="URL imagen principal"><input id="aUrl" class="input" placeholder="URL proyecto"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="aPrice" class="input" placeholder="Precio"><input id="aTags" class="input" placeholder="Tags coma"></div>
 <label style="font-size:12px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="aMost" checked> Marcar como más usada</label>
 <div style="display:flex;gap:10px"><button class="btn btn-quote" style="flex:1" onclick="savePlatform()">Guardar plataforma</button><button class="btn btn-view" style="flex:1" onclick="clearForm()">Limpiar</button></div>
@@ -112,12 +139,17 @@ let platforms = JSON.parse(localStorage.getItem('kigo_showroom')||'null') || [
 { id:5, cat:'uber', nombre:'KIGO UBER CLONE - TAXI & MOTO', desc:'Aplicación tipo Uber completa: App cliente, App conductor, Panel admin con tarifas por km, comisiones, chat y tracking GPS en vivo.', img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', gallery:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800','https://images.unsplash.com/photo-1519003722824-194243704534?q=80&w=800','https://images.unsplash.com/photo-1485575301923-ff8f5bad1804?q=80&w=800','https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800','https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800','https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=800','https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800'], url:'https://example.com/uber', price:'Desde $899 USD', tags:['GPS en vivo','Tarifa por km','App conductor'], top:true },
 { id:6, cat:'uber', nombre:'KIGO MANDADITOS EXPRESS', desc:'App tipo Uber para mandados y envíos express.', img:'https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800', gallery:['https://images.unsplash.com/photo-1580671999708-91dc45a6d9c3?q=80&w=800','https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=800','https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?q=80&w=800','https://images.unsplash.com/photo-1556740772-1a741367b93e?q=80&w=800','https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=800','https://images.unsplash.com/photo-1508614999368-45c1e1e2d5f3?q=80&w=800','https://images.unsplash.com/photo-1526367790999-01594a0b1263?q=80&w=800'], url:'https://example.com/mandados', price:'Desde $749 USD', tags:['Mandados','Chat','Tarifa dinámica'], top:true },
 ];
-let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo. Entra a la demo real y cotiza en segundos.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026"};
+let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo. Entra a la demo real y cotiza en segundos.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026", logo:"", accent:"#f59e0b"};
 let creds = JSON.parse(localStorage.getItem('kigo_creds')||'{"user":"admin","pass":"kigo123"}');
 let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0;
 function save(){ localStorage.setItem('kigo_showroom', JSON.stringify(platforms)); localStorage.setItem('kigo_site_v2', JSON.stringify(siteConfig)); localStorage.setItem('kigo_creds', JSON.stringify(creds)); }
 function applySite(){
- document.getElementById('siteLogo').innerHTML=siteConfig.name;
+ document.documentElement.style.setProperty('--accent', siteConfig.accent||'#f59e0b');
+ let logoHtml = siteConfig.logo? `<img src="${siteConfig.logo}">` : '';
+ let textHtml = siteConfig.name;
+ document.getElementById('siteLogo').innerHTML = logoHtml + textHtml;
+ document.getElementById('logoPreview').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
+ document.getElementById('loginLogo').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
  document.getElementById('heroTitle').innerText=siteConfig.hero;
  document.getElementById('heroSub').innerText=siteConfig.sub;
  document.getElementById('search').placeholder=siteConfig.search;
@@ -127,8 +159,24 @@ function applySite(){
  document.getElementById('heroSubInput').value=siteConfig.sub;
  document.getElementById('searchPlaceInput').value=siteConfig.search;
  document.getElementById('footerInput').value=siteConfig.footer;
+ document.getElementById('accentColor').value=siteConfig.accent;
+ document.getElementById('accentHex').value=siteConfig.accent;
+ document.getElementById('colorDemoAccent').style.color=siteConfig.accent;
  document.getElementById('currentCreds').innerText=creds.user+' / '+creds.pass;
 }
+function uploadLogo(input){
+ if(input.files && input.files[0]){
+  let reader = new FileReader();
+  reader.onload = function(e){
+   siteConfig.logo = e.target.result;
+   applySite(); save();
+   let m=document.getElementById('savedMsg'); m.innerText='✓ Logo subido desde celular'; m.style.display='block'; setTimeout(()=>m.style.display='none',1500);
+  };
+  reader.readAsDataURL(input.files[0]);
+ }
+}
+function removeLogo(){ siteConfig.logo=""; applySite(); save(); }
+function syncColorText(val){ document.getElementById('accentColor').value=val; updateLive(); }
 function updateLive(){
  let rawName=document.getElementById('siteNameInput').value;
  siteConfig.name=rawName.includes('<')? rawName : rawName.split(' ')[0]+' <i>'+(rawName.split(' ').slice(1).join(' ')||'SHOWROOM')+'</i>';
@@ -136,16 +184,20 @@ function updateLive(){
  siteConfig.sub=document.getElementById('heroSubInput').value;
  siteConfig.search=document.getElementById('searchPlaceInput').value;
  siteConfig.footer=document.getElementById('footerInput').value;
- document.getElementById('siteLogo').innerHTML=siteConfig.name;
+ siteConfig.accent=document.getElementById('accentColor').value;
+ document.getElementById('accentHex').value=siteConfig.accent;
+ document.documentElement.style.setProperty('--accent', siteConfig.accent);
+ document.getElementById('siteLogo').innerHTML = (siteConfig.logo? `<img src="${siteConfig.logo}">` : '') + siteConfig.name;
+ document.getElementById('colorDemoAccent').style.color=siteConfig.accent;
  document.getElementById('heroTitle').innerText=siteConfig.hero;
  document.getElementById('heroSub').innerText=siteConfig.sub;
  document.getElementById('search').placeholder=siteConfig.search;
  document.getElementById('footerText').innerText=siteConfig.footer;
  save();
- let m=document.getElementById('savedMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none',1500);
+ let m=document.getElementById('savedMsg'); m.innerText='✓ Guardado en tiempo real'; m.style.display='block'; setTimeout(()=>m.style.display='none',1200);
 }
-function saveLive(){ save(); let m=document.getElementById('savedMsg'); m.innerText='✓ Guardado correctamente - queda guardado al actualizar'; m.style.display='block'; setTimeout(()=>{m.style.display='none'; m.innerText='✓ Guardado y aplicado en tiempo real';},2000); }
-function resetSite(){ localStorage.removeItem('kigo_site_v2'); siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo. Entra a la demo real y cotiza en segundos.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026"}; applySite(); save(); }
+function saveLive(){ save(); let m=document.getElementById('savedMsg'); m.innerText='✓ Guardado correctamente'; m.style.display='block'; setTimeout(()=>m.style.display='none',2000); }
+function resetSite(){ if(confirm('Resetear todo?')){ localStorage.removeItem('kigo_site_v2'); siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo. Entra a la demo real y cotiza en segundos.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo, Guanajuato • 2026", logo:"", accent:"#f59e0b"}; applySite(); save(); } }
 function switchTab(t){
  document.querySelectorAll('.adminTab').forEach(b=>b.classList.remove('active'));
  document.getElementById('panelMod').style.display='none'; document.getElementById('panelPlat').style.display='none'; document.getElementById('panelAcc').style.display='none';
