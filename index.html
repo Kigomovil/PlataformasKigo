@@ -4,14 +4,8 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KIGO Showroom</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<script type="importmap">
-{
-  "imports": {
-    "firebase/app": "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js",
-    "firebase/database": "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js"
-  }
-}
-</script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 :root{--bg:#ffffff;--text:#0a0a0a;--muted:#6b7280;--line:#eaeaec;--soft:#f6f6f7;--black:#0a0a0a;--accent:#f59e0b}
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
@@ -39,8 +33,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;background:#fcfcfd}.footerBrand{font-weight:800;font-size:15px}.footerSub{color:#9ca3af;font-size:12px;margin-top:8px}
 .modal{position:fixed;inset:0;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);display:none;z-index:60;padding:12px;align-items:center;justify-content:center}.modal.centered{justify-content:center;align-items:center!important}
 .box{width:100%;max-width:980px;background:white;border-radius:24px;border:1px solid var(--line);overflow:hidden;max-height:92vh;display:flex;flex-direction:column}.boxHead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.form{padding:22px;display:grid;gap:14px}.input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--soft);font-size:14px;outline:none}.iconBtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:white;display:grid;place-items:center;cursor:pointer}
-.viewBack{width:42px;height:42px;border-radius:12px;background:#ffffff;border:1px solid #eaeaec;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);transition:.2s}.viewBack:hover{background:#f6f6f7;transform:translateY(-1px)}
-.viewCloseX{width:42px;height:42px;border-radius:12px;background:#0a0a0a;color:white;display:grid;place-items:center;cursor:pointer;border:1px solid #111;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}.viewCloseX:hover{background:#1a1a1a;transform:translateY(-1px)}
+.viewBack{width:42px;height:42px;border-radius:12px;background:#ffffff;border:1px solid #eaeaec;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);transition:.2s}
+.viewCloseX{width:42px;height:42px;border-radius:12px;background:#0a0a0a;color:white;display:grid;place-items:center;cursor:pointer;border:1px solid #111;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}
 .uploadBox{border:2px dashed #d1d5db;border-radius:14px;padding:12px;text-align:center;background:white;cursor:pointer;font-size:12px}
 .adminTabs{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);background:#fcfcfd;overflow-x:auto}.adminTab{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:white;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}.adminTab.active{background:var(--black);color:white}
 .platSubTabs{display:flex;gap:8px;margin-bottom:12px}.platSubTab{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:white;font-weight:700;font-size:12px;cursor:pointer}.platSubTab.active{background:var(--black);color:white}
@@ -55,15 +49,15 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div class="grid" id="grid"></div>
 <div class="mostSection"><div class="mostHead"><h2>Las más usadas</h2><span>Desliza →</span></div><div class="slider" id="mostSlider"></div></div>
 <footer><div class="footerBrand">Desarrollo Kigo Apps</div><div class="footerSub" id="footerText">Plataformas profesionales • Dolores Hidalgo • 2026</div></footer>
-<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><div style="display:flex;gap:12px;align-items:center"><button class="viewBack" onclick="closeView()" title="Regresar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></button><b id="vTitle" style="font-size:15px">Demo</b></div><button class="viewCloseX" onclick="closeView()" title="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><div style="display:flex;gap:12px;align-items:center"><button class="viewBack" onclick="closeView()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></button><b id="vTitle" style="font-size:15px">Demo</b></div><button class="viewCloseX" onclick="closeView()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
 <div class="viewWrap">
-<div class="viewGalleryWrap"><div id="vGallery" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;scroll-behavior:smooth"></div><div style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:99px;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.1)" id="vCat2"></div><div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:6px" id="vDots"></div><div style="display:flex;justify-content:space-between;padding:10px;background:#0a0a0a"><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryPrev()">‹</button><div style="color:#9ca3af;font-size:11px;display:flex;align-items:center" id="vCounter">1 / 7</div><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryNext()">›</button></div></div>
-<div class="viewInfo"><div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div><div style="padding:14px;border:1px solid #eaeaec;border-radius:14px;background:white;margin-bottom:14px"><div style="font-size:11px;color:#6b7280;letter-spacing:.5px">PRECIO</div><div style="font-weight:800;font-size:20px;color:#0a0a0a" id="vPrice">$0</div><div style="font-size:11px;color:#6b7280;margin-top:4px" id="vPaySub">pago único</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div><div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div></div></div></div></div>
-<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:10px"><div id="loginLogo" style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800;overflow:hidden">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Ingresa al centro de control</div></div><input id="loginUser" class="input" placeholder="Usuario" value="admin"><input id="loginPass" type="password" class="input" placeholder="Contraseña" value="0831"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button><div style="font-size:10px;color:#6b7280;text-align:center;margin-top:8px">Usuario: admin / Contraseña: 0831</div></div></div></div>
-<div class="modal" id="adminModal"><div class="box" style="max-width:820px"><div class="boxHead"><b>Panel Administrador</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div></div>
+<div class="viewGalleryWrap"><div id="vGallery" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;scroll-behavior:smooth"></div><div style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:99px;font-size:10px;font-weight:700" id="vCat2"></div><div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:6px" id="vDots"></div><div style="display:flex;justify-content:space-between;padding:10px;background:#0a0a0a"><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryPrev()">‹</button><div style="color:#9ca3af;font-size:11px;display:flex;align-items:center" id="vCounter">1 / 7</div><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryNext()">›</button></div></div>
+<div class="viewInfo"><div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div><div style="padding:14px;border:1px solid #eaeaec;border-radius:14px;background:white;margin-bottom:14px"><div style="font-size:11px;color:#6b7280">PRECIO</div><div style="font-weight:800;font-size:20px" id="vPrice">$0</div><div style="font-size:11px;color:#6b7280;margin-top:4px" id="vPaySub">pago único</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div><div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div></div></div></div></div>
+<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()">✕</button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:10px"><div id="loginLogo" style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800;overflow:hidden">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Usuario: admin / Pass: 0831</div></div><input id="loginUser" class="input" placeholder="Usuario" value="admin"><input id="loginPass" type="password" class="input" placeholder="Contraseña" value="0831"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button></div></div></div>
+<div class="modal" id="adminModal"><div class="box" style="max-width:820px"><div class="boxHead"><b>Panel Administrador - NUBE</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()">✕</button></div></div>
 <div class="adminTabs"><button class="adminTab active" id="tabMod" onclick="switchTab('mod')">1. Modificaciones</button><button class="adminTab" id="tabPlat" onclick="switchTab('plat')">2. Plataformas</button><button class="adminTab" id="tabAcc" onclick="switchTab('acc')">3. Acceso</button></div>
 <div class="form" id="panelMod">
-<h4 style="font-size:12px;color:#6b7280">MODIFICACIONES GENERALES</h4>
+<h4 style="font-size:12px;color:#6b7280">MODIFICACIONES GENERALES - GUARDADO EN NUBE</h4>
 <div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:14px">
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">LOGO DESDE CELULAR</label><div style="display:flex;gap:12px;align-items:center;margin-top:10px"><div id="logoPreview" style="width:56px;height:56px;border-radius:12px;background:#f3f3f5;border:1px solid #eaeaec;display:grid;place-items:center;font-weight:800;overflow:hidden">K</div><div style="flex:1"><input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogo(this)"><div class="uploadBox" onclick="document.getElementById('logoFile').click()">📸 Tocar para subir logo</div><button class="btn btn-view" style="width:100%;height:32px;margin-top:8px;font-size:11px" onclick="removeLogo()">Quitar logo</button></div></div></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px;display:grid;gap:8px"><label style="font-size:11px;font-weight:700">COLOR PALABRA AMARILLA</label><div style="display:flex;gap:10px;align-items:center"><input type="color" id="accentColor" value="#f59e0b" style="width:56px;height:42px;border-radius:10px;padding:4px" oninput="updateLive()"><input id="accentHex" class="input" oninput="syncColorText(this.value)"><div id="colorDemo" style="padding:8px 12px;border-radius:999px;background:#0a0a0a;color:white;font-weight:800;font-size:12px">KIGO <span id="colorDemoAccent" style="color:#f59e0b">SHOWROOM</span></div></div></div>
@@ -76,7 +70,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="font-size:11px;color:#16a34a;display:none" id="savedMsg">✓ Guardado en la nube</div>
 </div></div>
 <div class="form" id="panelPlat" style="display:none">
-<h4 style="font-size:12px;color:#6b7280">PLATAFORMAS - AGREGAR Y EDITAR</h4>
+<h4 style="font-size:12px;color:#6b7280">PLATAFORMAS - AGREGAR Y EDITAR (NUBE)</h4>
 <div class="platSubTabs"><button class="platSubTab active" id="platTabAdd" onclick="setPlatMode('add')">➕ Agregar producto</button><button class="platSubTab" id="platTabEdit" onclick="setPlatMode('edit')">✎ Editar productos</button></div>
 <div id="platAddBox" style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:12px">
 <label style="font-size:11px;font-weight:700">NOMBRE PRODUCTO</label><input id="aName" class="input" placeholder="Ej: KIGO UBER CLONE">
@@ -91,7 +85,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="font-size:11px;color:#16a34a;display:none" id="platMsg">✓ Guardado</div>
 </div>
 <div id="platEditBox" style="display:none">
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">LISTA DE PRODUCTOS - TOCA PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div><div id="emptyMsg" style="display:none;text-align:center;padding:20px;color:#6b7280;font-size:13px">No hay productos aún.</div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">LISTA DE PRODUCTOS - NUBE - TOCA PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div><div id="emptyMsg" style="display:none;text-align:center;padding:20px;color:#6b7280;font-size:13px">No hay productos aún.</div></div>
 <div id="editFormBox" style="background:white;border:1px solid #111;border-radius:14px;padding:14px;display:none">
 <h4 style="font-size:12px;margin-bottom:10px">EDITANDO: <span id="editNameLabel"></span></h4>
 <label style="font-size:11px;font-weight:600">NOMBRE</label><input id="eName" class="input">
@@ -107,168 +101,3 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 </div>
 <div class="form" id="panelAcc" style="display:none"><h4 style="font-size:12px;color:#6b7280">ACCESO - SOLO CON 0831 SE VEN ACTUALIZACIONES</h4><div style="border:1px solid #eaeaec;border-radius:12px;padding:14px;background:#fcfcfd;display:grid;gap:10px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="newUser" class="input" placeholder="Nuevo usuario"><input id="newPass" class="input" placeholder="Nueva contraseña"></div><button class="btn btn-view" style="width:100%" onclick="updateCreds()">Actualizar acceso</button><div style="font-size:11px;color:#6b7280">Actual: <span id="currentCreds"></span></div></div></div>
 </div></div>
-<script type="module">
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, onValue, set, push, remove, update } from 'firebase/database';
-const firebaseConfig = { databaseURL: "https://kigo-xpress-7d2e1-default-rtdb.firebaseio.com" };
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-let platforms = [];
-let siteConfig = {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
-let creds = {user:"admin", pass:"0831"};
-let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[], editGallery=[];
-onValue(ref(db, 'kigo_showroom_platforms'), (snap)=>{
-  const data = snap.val();
-  if(data){ platforms = Object.entries(data).map(([key,val])=>({firebaseKey:key,...val})); } else { platforms = []; }
-  renderFilters(); renderGrid(); renderAdminList();
-});
-onValue(ref(db, 'kigo_site_v2'), (snap)=>{ const data = snap.val(); if(data){ siteConfig = data; applySite(); } });
-function saveToCloud(){ set(ref(db, 'kigo_site_v2'), siteConfig); }
-window.save = function(){ saveToCloud(); }
-function applySite(){
- document.documentElement.style.setProperty('--accent', siteConfig.accent);
- let logoHtml = siteConfig.logo? `<img src="${siteConfig.logo}">` : '';
- const siteLogo = document.getElementById('siteLogo');
- if(siteLogo) siteLogo.innerHTML = logoHtml + siteConfig.name;
- document.getElementById('logoPreview').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
- document.getElementById('loginLogo').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
- document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
- document.getElementById('search').placeholder=siteConfig.search; document.getElementById('footerText').innerText=siteConfig.footer;
- document.getElementById('siteNameInput').value=siteConfig.name.replace(/<[^>]*>/g,'').trim();
- document.getElementById('heroTitleInput').value=siteConfig.hero; document.getElementById('heroSubInput').value=siteConfig.sub;
- document.getElementById('searchPlaceInput').value=siteConfig.search; document.getElementById('footerInput').value=siteConfig.footer;
- document.getElementById('accentColor').value=siteConfig.accent; document.getElementById('accentHex').value=siteConfig.accent;
- const demo = document.getElementById('colorDemoAccent'); if(demo) demo.style.color=siteConfig.accent;
- document.getElementById('currentCreds').innerText=creds.user+' / '+creds.pass;
-}
-window.uploadLogo = function(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ siteConfig.logo=e.target.result; applySite(); saveToCloud(); }; r.readAsDataURL(input.files[0]); } }
-window.removeLogo = function(){ siteConfig.logo=""; applySite(); saveToCloud(); }
-window.syncColorText = function(v){ document.getElementById('accentColor').value=v; updateLive(); }
-window.updateLive = function(){
- let raw=document.getElementById('siteNameInput').value;
- siteConfig.name=raw.includes('<')? raw : raw.split(' ')[0]+' <i>'+(raw.split(' ').slice(1).join(' ')||'SHOWROOM')+'</i>';
- siteConfig.hero=document.getElementById('heroTitleInput').value; siteConfig.sub=document.getElementById('heroSubInput').value;
- siteConfig.search=document.getElementById('searchPlaceInput').value; siteConfig.footer=document.getElementById('footerInput').value;
- siteConfig.accent=document.getElementById('accentColor').value;
- document.documentElement.style.setProperty('--accent', siteConfig.accent);
- document.getElementById('siteLogo').innerHTML=(siteConfig.logo?`<img src="${siteConfig.logo}">`:'')+siteConfig.name;
- const demo = document.getElementById('colorDemoAccent'); if(demo) demo.style.color=siteConfig.accent;
- document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
- document.getElementById('search').placeholder=siteConfig.search; document.getElementById('footerText').innerText=siteConfig.footer;
-}
-window.saveLive = function(){ saveToCloud(); let m=document.getElementById('savedMsg'); if(m){ m.style.display='block'; setTimeout(()=>m.style.display='none',1500);} }
-window.resetSite = function(){ if(confirm('Resetear?')){ siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas.", search:"Buscar...", footer:"Plataformas profesionales • 2026", logo:"", accent:"#f59e0b"}; applySite(); saveToCloud(); } }
-window.switchTab = function(t){
- document.querySelectorAll('.adminTab').forEach(b=>b.classList.remove('active'));
- document.getElementById('panelMod').style.display='none'; document.getElementById('panelPlat').style.display='none'; document.getElementById('panelAcc').style.display='none';
- if(t==='mod'){ document.getElementById('tabMod').classList.add('active'); document.getElementById('panelMod').style.display='grid'; }
- if(t==='plat'){ document.getElementById('tabPlat').classList.add('active'); document.getElementById('panelPlat').style.display='grid'; setPlatMode('add'); }
- if(t==='acc'){ document.getElementById('tabAcc').classList.add('active'); document.getElementById('panelAcc').style.display='grid'; }
-}
-window.setPlatMode = function(mode){
- document.getElementById('platTabAdd').classList.toggle('active', mode==='add');
- document.getElementById('platTabEdit').classList.toggle('active', mode==='edit');
- document.getElementById('platAddBox').style.display= mode==='add'? 'grid' : 'none';
- document.getElementById('platEditBox').style.display= mode==='edit'? 'block' : 'none';
- if(mode==='edit'){ renderAdminList(); document.getElementById('editFormBox').style.display='none'; }
- if(mode==='add'){ clearForm(); }
-}
-function catLabel(c){ if(c==='todo') return 'TODO'; return (c||'').toUpperCase(); }
-function payLabel(t){ if(t==='mensual') return 'mensualidad'; if(t==='anual') return 'anual'; return 'pago único'; }
-window.renderFilters = function(){ let all=['todo',...new Set(platforms.map(p=>p.cat))]; if(all.length===1) all=['todo']; document.getElementById('filters').innerHTML=all.map(c=>`<div class="chip ${filtro===c?'active':''}" onclick="setFilter('${c}')">${catLabel(c)}</div>`).join(''); }
-window.setFilter = function(c){ filtro=c; renderFilters(); renderGrid(); }
-window.renderGrid = function(){
- let q=document.getElementById('search').value.toLowerCase();
- let list=platforms.filter(p=> (filtro==='todo'||p.cat===filtro) && (p.nombre.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
- if(list.length===0){ document.getElementById('grid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b7280"><div style="font-size:48px">📦</div><div style="font-weight:700;color:#111;margin-top:8px">No hay productos aún</div><div style="font-size:13px;margin-top:6px">Admin → Plataformas → Agregar producto</div></div>`; }
- else { document.getElementById('grid').innerHTML=list.map(p=>`<div class="card"><div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div><div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} • ${payLabel(p.payType)}</div><div class="meta">${(p.tags||[]).map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="openView('${p.firebaseKey}')">Ver</button><button class="btn btn-quote" onclick="openQuote('${p.firebaseKey}')">Cotizar</button></div></div></div>`).join(''); }
- renderMost();
-}
-function renderMost(){
- if(platforms.length===0){ document.getElementById('mostSlider').innerHTML=`<div style="padding:20px;color:#6b7280;font-size:13px">Aún no hay productos marcados como más usados</div>`; return; }
- document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView('${p.firebaseKey}')"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${(p.desc||'').substring(0,60)}...</p><div class="miniPrice">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120);
-}
-function initMostZoom(){ const s=document.getElementById('mostSlider'); if(!s) return; function up(){ const r=s.getBoundingClientRect(); const c=r.left+r.width/2; let cl=null,mn=Infinity; s.querySelectorAll('.miniCard').forEach(card=>{ const rr=card.getBoundingClientRect(); const cc=rr.left+rr.width/2; const d=Math.abs(c-cc); if(d<mn){mn=d;cl=card;}}); s.querySelectorAll('.miniCard').forEach(x=>x.classList.remove('active')); if(cl) cl.classList.add('active'); } s.addEventListener('scroll',up,{passive:true}); up(); s.scrollLeft=20; }
-window.openView = function(fbKey){
- let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return;
- currentGallery=p.gallery||[p.img,p.img,p.img,p.img,p.img,p.img,p.img]; galleryIndex=0;
- document.getElementById('vTitle').innerText=p.nombre; document.getElementById('vName').innerText=p.nombre; document.getElementById('vCat').innerText=catLabel(p.cat); document.getElementById('vCat2').innerText=catLabel(p.cat);
- document.getElementById('vDesc').innerText=p.desc; document.getElementById('vPrice').innerText=p.price; document.getElementById('vPaySub').innerText=payLabel(p.payType);
- document.getElementById('vTags').innerHTML=(p.tags||[]).map(t=>`<i style="font-style:normal;font-size:11px;background:#f8f8f9;border:1px solid #ececef;padding:6px 10px;border-radius:999px">${t}</i>`).join('');
- document.getElementById('vGallery').innerHTML=currentGallery.map(s=>`<img class="galleryImg" src="${s}">`).join('');
- document.getElementById('vDots').innerHTML=currentGallery.map((_,i)=>`<div class="vDot ${i===0?'active':''}"></div>`).join('');
- document.getElementById('vCounter').innerText=`1 / ${currentGallery.length}`;
- document.getElementById('vFrame').src=p.url; document.getElementById('vGo').onclick=()=>window.open(p.url,'_blank'); document.getElementById('vQuote').onclick=()=>openQuote(p.firebaseKey);
- document.getElementById('viewModal').style.display='flex';
- let g=document.getElementById('vGallery'); g.onscroll=()=>{ let idx=Math.round(g.scrollLeft/g.clientWidth); if(idx!==galleryIndex){ galleryIndex=idx; updateGalleryUI(); } };
-}
-function updateGalleryUI(){ document.querySelectorAll('.vDot').forEach((d,i)=>d.classList.toggle('active',i===galleryIndex)); document.getElementById('vCounter').innerText=`${galleryIndex+1} / ${currentGallery.length}`; }
-window.galleryPrev = function(){ if(galleryIndex>0){ galleryIndex--; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
-window.galleryNext = function(){ if(galleryIndex<currentGallery.length-1){ galleryIndex++; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
-window.closeView = function(){ document.getElementById('viewModal').style.display='none'; document.getElementById('vFrame').src=''; }
-window.openQuote = function(fbKey){ let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return; window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre)}`,'_blank'); }
-window.openLogin = function(){ if(isLogged){ openAdmin(); } else { document.getElementById('loginModal').style.display='flex'; } }
-window.closeLogin = function(){ document.getElementById('loginModal').style.display='none'; }
-window.doLogin = function(){ let u=document.getElementById('loginUser').value,pw=document.getElementById('loginPass').value; if(u===creds.user&&pw===creds.pass){ isLogged=true; closeLogin(); openAdmin(); } else alert('Datos incorrectos - usa admin / 0831'); }
-window.logout = function(){ isLogged=false; closeAdmin(); }
-window.openAdmin = function(){ if(!isLogged) return openLogin(); document.getElementById('adminModal').style.display='flex'; renderAdminList(); applySite(); switchTab('mod'); }
-window.closeAdmin = function(){ document.getElementById('adminModal').style.display='none'; }
-window.updateCreds = function(){ let nu=document.getElementById('newUser').value,np=document.getElementById('newPass').value; if(nu) creds.user=nu; if(np) creds.pass=np; applySite(); alert('Actualizado: '+creds.user+' / '+creds.pass); }
-window.uploadPlatImg = function(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('aImg').value=e.target.result; let prev=document.getElementById('aImgPreview'); prev.src=e.target.result; prev.style.display='block'; }; r.readAsDataURL(input.files[0]); } }
-window.uploadGallery = function(input){
- if(!input.files) return; let files=Array.from(input.files).slice(0,7); tempGallery=[]; let preview=document.getElementById('aGalleryPreview'); preview.innerHTML=''; document.getElementById('galleryCount').innerText=files.length+' / 7 fotos'; let loaded=0; files.forEach(file=>{ let r=new FileReader(); r.onload=e=>{ tempGallery.push(e.target.result); loaded++; let img=document.createElement('img'); img.src=e.target.result; img.style.width='56px'; img.style.height='56px'; img.style.borderRadius='10px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; preview.appendChild(img); if(loaded===files.length){ document.getElementById('galleryCount').innerText=tempGallery.length+' / 7 fotos listas ✓'; } }; r.readAsDataURL(file); });
-}
-window.clearForm = function(){ ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; document.getElementById('galleryCount').innerText='0 / 7 fotos'; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
-window.savePlatform = function(){
- let name=document.getElementById('aName').value.trim(); if(!name){ alert('Pon nombre'); return; }
- let img=document.getElementById('aImg').value || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
- let gallery = tempGallery.length>=1? [...tempGallery] : [img,img,img,img,img,img,img]; while(gallery.length<7) gallery.push(img);
- let obj={ cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked };
- const newRef = push(ref(db, 'kigo_showroom_platforms'));
- set(newRef, obj).then(()=>{
-   let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Guardado en la nube - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
-   clearForm();
- });
-}
-window.renderAdminList = function(){
- let listEl=document.getElementById('adminList'); let emptyEl=document.getElementById('emptyMsg');
- if(platforms.length===0){ listEl.innerHTML=''; if(emptyEl) emptyEl.style.display='block'; return; }
- if(emptyEl) emptyEl.style.display='none';
- listEl.innerHTML=platforms.map(p=>`<div style="display:flex;gap:12px;align-items:center;border:1px solid #eaeaec;border-radius:14px;padding:12px;background:white;cursor:pointer" onclick="selectForEdit('${p.firebaseKey}')"><img src="${p.img}" style="width:48px;height:48px;border-radius:10px;object-fit:cover"><div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</b><span style="font-size:11px;color:#6b7280">${catLabel(p.cat)} • ${p.price} • ${(p.gallery||[]).length} fotos</span></div><div style="display:flex;gap:6px"><button class="btn btn-view" style="height:36px;padding:0 12px;font-size:11px" onclick="event.stopPropagation();selectForEdit('${p.firebaseKey}')">✎ Editar</button><button class="btn btn-quote" style="height:36px;padding:0 12px;background:#dc2626;border-color:#dc2626;font-size:11px" onclick="event.stopPropagation();delP('${p.firebaseKey}')">Eliminar</button></div></div>`).join('');
-}
-window.selectForEdit = function(fbKey){
- let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return; editingId=fbKey;
- document.getElementById('editNameLabel').innerText=p.nombre;
- document.getElementById('eName').value=p.nombre; document.getElementById('eCat').value=p.cat; document.getElementById('eDesc').value=p.desc;
- document.getElementById('eUrl').value=p.url; document.getElementById('ePrice').value=p.price; document.getElementById('ePayType').value=p.payType||'unico';
- document.getElementById('eTags').value=(p.tags||[]).join(', '); document.getElementById('eImg').value=p.img; document.getElementById('eImgPreview').src=p.img;
- editGallery=[...p.gallery]; let gp=document.getElementById('eGalleryPreview'); gp.innerHTML=''; editGallery.forEach(src=>{ let img=document.createElement('img'); img.src=src; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; gp.appendChild(img); });
- document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos actuales';
- document.getElementById('editFormBox').style.display='block'; document.getElementById('editFormBox').scrollIntoView({behavior:'smooth'});
-}
-window.uploadEditImg = function(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('eImg').value=e.target.result; document.getElementById('eImgPreview').src=e.target.result; }; r.readAsDataURL(input.files[0]); } }
-window.uploadEditGallery = function(input){ if(!input.files) return; let files=Array.from(input.files).slice(0,7); editGallery=[]; let preview=document.getElementById('eGalleryPreview'); preview.innerHTML=''; let loaded=0; files.forEach(file=>{ let r=new FileReader(); r.onload=e=>{ editGallery.push(e.target.result); loaded++; let img=document.createElement('img'); img.src=e.target.result; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; preview.appendChild(img); if(loaded===files.length){ document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos nuevas ✓'; } }; r.readAsDataURL(file); }); }
-window.saveEdit = function(){
- if(!editingId){ alert('Selecciona un producto'); return; }
- let p=platforms.find(x=>x.firebaseKey===editingId); if(!p) return;
- let updated = {
-   nombre:document.getElementById('eName').value,
-   cat:document.getElementById('eCat').value.toLowerCase(),
-   desc:document.getElementById('eDesc').value,
-   url:document.getElementById('eUrl').value,
-   price:document.getElementById('ePrice').value,
-   payType:document.getElementById('ePayType').value,
-   tags:document.getElementById('eTags').value.split(',').map(s=>s.trim()).filter(Boolean),
-   img:document.getElementById('eImg').value||p.img,
-   gallery: editGallery.length>=1? [...editGallery] : p.gallery
- };
- while(updated.gallery.length<7) updated.gallery.push(updated.img);
- update(ref(db, 'kigo_showroom_platforms/' + editingId), updated).then(()=>{ alert('✓ Guardado en la nube: '+updated.nombre); document.getElementById('editFormBox').style.display='none'; });
-}
-window.cancelEdit = function(){ document.getElementById('editFormBox').style.display='none'; editingId=null; }
-window.delP = function(fbKey){ if(confirm('¿Eliminar de la nube?')){ remove(ref(db, 'kigo_showroom_platforms/' + fbKey)); if(editingId===fbKey) cancelEdit(); } }
-document.getElementById('search').addEventListener('input',renderGrid);
-applySite(); renderFilters(); renderGrid();
-</script>
-</body>
-</html>
