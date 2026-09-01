@@ -33,8 +33,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop
 footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;background:#fcfcfd}.footerBrand{font-weight:800;font-size:15px}.footerSub{color:#9ca3af;font-size:12px;margin-top:8px}
 .modal{position:fixed;inset:0;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);display:none;z-index:60;padding:12px;align-items:center;justify-content:center}.modal.centered{justify-content:center;align-items:center!important}
 .box{width:100%;max-width:980px;background:white;border-radius:24px;border:1px solid var(--line);overflow:hidden;max-height:92vh;display:flex;flex-direction:column}.boxHead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.form{padding:22px;display:grid;gap:14px}.input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--soft);font-size:14px;outline:none}.iconBtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:white;display:grid;place-items:center;cursor:pointer}
-.viewBack{width:42px;height:42px;border-radius:12px;background:#ffffff;border:1px solid #eaeaec;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);transition:.2s}
-.viewCloseX{width:42px;height:42px;border-radius:12px;background:#0a0a0a;color:white;display:grid;place-items:center;cursor:pointer;border:1px solid #111;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}
+.viewBack{width:42px;height:42px;border-radius:12px;background:#ffffff;border:1px solid #eaeaec;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);transition:.2s}.viewBack:hover{background:#f6f6f7;transform:translateY(-1px)}
+.viewCloseX{width:42px;height:42px;border-radius:12px;background:#0a0a0a;color:white;display:grid;place-items:center;cursor:pointer;border:1px solid #111;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}.viewCloseX:hover{background:#1a1a1a;transform:translateY(-1px)}
 .uploadBox{border:2px dashed #d1d5db;border-radius:14px;padding:12px;text-align:center;background:white;cursor:pointer;font-size:12px}
 .adminTabs{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);background:#fcfcfd;overflow-x:auto}.adminTab{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:white;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}.adminTab.active{background:var(--black);color:white}
 .platSubTabs{display:flex;gap:8px;margin-bottom:12px}.platSubTab{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:white;font-weight:700;font-size:12px;cursor:pointer}.platSubTab.active{background:var(--black);color:white}
@@ -49,15 +49,15 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div class="grid" id="grid"></div>
 <div class="mostSection"><div class="mostHead"><h2>Las más usadas</h2><span>Desliza →</span></div><div class="slider" id="mostSlider"></div></div>
 <footer><div class="footerBrand">Desarrollo Kigo Apps</div><div class="footerSub" id="footerText">Plataformas profesionales • Dolores Hidalgo • 2026</div></footer>
-<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><div style="display:flex;gap:12px;align-items:center"><button class="viewBack" onclick="closeView()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></button><b id="vTitle" style="font-size:15px">Demo</b></div><button class="viewCloseX" onclick="closeView()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="modal centered" id="viewModal"><div class="box"><div class="boxHead"><div style="display:flex;gap:12px;align-items:center"><button class="viewBack" onclick="closeView()" title="Regresar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></button><b id="vTitle" style="font-size:15px">Demo</b></div><button class="viewCloseX" onclick="closeView()" title="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
 <div class="viewWrap">
-<div class="viewGalleryWrap"><div id="vGallery" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;scroll-behavior:smooth"></div><div style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:99px;font-size:10px;font-weight:700" id="vCat2"></div><div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:6px" id="vDots"></div><div style="display:flex;justify-content:space-between;padding:10px;background:#0a0a0a"><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryPrev()">‹</button><div style="color:#9ca3af;font-size:11px;display:flex;align-items:center" id="vCounter">1 / 7</div><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryNext()">›</button></div></div>
-<div class="viewInfo"><div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div><div style="padding:14px;border:1px solid #eaeaec;border-radius:14px;background:white;margin-bottom:14px"><div style="font-size:11px;color:#6b7280">PRECIO</div><div style="font-weight:800;font-size:20px" id="vPrice">$0</div><div style="font-size:11px;color:#6b7280;margin-top:4px" id="vPaySub">pago único</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div><div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div></div></div></div></div>
-<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()">✕</button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:10px"><div id="loginLogo" style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800;overflow:hidden">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Usuario: admin / Pass: 0831</div></div><input id="loginUser" class="input" placeholder="Usuario" value="admin"><input id="loginPass" type="password" class="input" placeholder="Contraseña" value="0831"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button></div></div></div>
-<div class="modal" id="adminModal"><div class="box" style="max-width:820px"><div class="boxHead"><b>Panel Administrador - NUBE</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()">✕</button></div></div>
+<div class="viewGalleryWrap"><div id="vGallery" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;scroll-behavior:smooth"></div><div style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:99px;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.1)" id="vCat2"></div><div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:6px" id="vDots"></div><div style="display:flex;justify-content:space-between;padding:10px;background:#0a0a0a"><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryPrev()">‹</button><div style="color:#9ca3af;font-size:11px;display:flex;align-items:center" id="vCounter">1 / 7</div><button class="iconBtn" style="background:rgba(255,255,255,.15);color:white;border-color:rgba(255,255,255,.2)" onclick="galleryNext()">›</button></div></div>
+<div class="viewInfo"><div id="vName" style="font-weight:800;font-size:18px;font-family:Plus Jakarta Sans"></div><div id="vCat" style="font-size:11px;color:#6b7280;margin:4px 0 12px;font-weight:600"></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">DESCRIPCIÓN</div><p id="vDesc" style="font-size:13px;color:#3f3f46;line-height:1.7"></p></div><div style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-size:11px;color:#6b7280">QUE INCLUYE</div><div id="vTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div></div><div style="padding:14px;border:1px solid #eaeaec;border-radius:14px;background:white;margin-bottom:14px"><div style="font-size:11px;color:#6b7280;letter-spacing:.5px">PRECIO</div><div style="font-weight:800;font-size:20px;color:#0a0a0a" id="vPrice">$0</div><div style="font-size:11px;color:#6b7280;margin-top:4px" id="vPaySub">pago único</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button id="vGo" class="btn btn-view" style="height:46px">Abrir plataforma</button><button id="vQuote" class="btn btn-quote" style="height:46px">Cotizar</button></div><div style="margin-top:14px"><div style="font-size:11px;color:#6b7280;margin-bottom:8px">DEMO EN VIVO</div><iframe id="vFrame" style="width:100%;height:220px;border:1px solid #eaeaec;border-radius:12px"></iframe></div></div></div></div></div>
+<div class="modal centered" id="loginModal"><div class="box" style="max-width:360px"><div class="boxHead"><b>Acceso Administrador</b><button class="iconBtn" onclick="closeLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="form" style="padding:20px"><div style="text-align:center;margin-bottom:10px"><div id="loginLogo" style="width:56px;height:56px;border-radius:16px;background:#0a0a0a;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:800;overflow:hidden">K</div><div style="font-weight:700">Bienvenido KIGO</div><div style="font-size:12px;color:#6b7280">Ingresa al centro de control</div></div><input id="loginUser" class="input" placeholder="Usuario" value="admin"><input id="loginPass" type="password" class="input" placeholder="Contraseña" value="0831"><button class="btn btn-quote" style="height:46px" onclick="doLogin()">Ingresar al panel</button><div style="font-size:10px;color:#6b7280;text-align:center;margin-top:8px">Usuario: admin / Contraseña: 0831</div></div></div></div>
+<div class="modal" id="adminModal"><div class="box" style="max-width:820px"><div class="boxHead"><b>Panel Administrador</b><div style="display:flex;gap:8px"><button class="iconBtn" onclick="logout()">⎋</button><button class="iconBtn" onclick="closeAdmin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div></div>
 <div class="adminTabs"><button class="adminTab active" id="tabMod" onclick="switchTab('mod')">1. Modificaciones</button><button class="adminTab" id="tabPlat" onclick="switchTab('plat')">2. Plataformas</button><button class="adminTab" id="tabAcc" onclick="switchTab('acc')">3. Acceso</button></div>
 <div class="form" id="panelMod">
-<h4 style="font-size:12px;color:#6b7280">MODIFICACIONES GENERALES - GUARDADO EN NUBE</h4>
+<h4 style="font-size:12px;color:#6b7280">MODIFICACIONES GENERALES</h4>
 <div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:14px">
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px"><label style="font-size:11px;font-weight:700">LOGO DESDE CELULAR</label><div style="display:flex;gap:12px;align-items:center;margin-top:10px"><div id="logoPreview" style="width:56px;height:56px;border-radius:12px;background:#f3f3f5;border:1px solid #eaeaec;display:grid;place-items:center;font-weight:800;overflow:hidden">K</div><div style="flex:1"><input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogo(this)"><div class="uploadBox" onclick="document.getElementById('logoFile').click()">📸 Tocar para subir logo</div><button class="btn btn-view" style="width:100%;height:32px;margin-top:8px;font-size:11px" onclick="removeLogo()">Quitar logo</button></div></div></div>
 <div style="background:white;border:1px solid #eaeaec;border-radius:12px;padding:12px;display:grid;gap:8px"><label style="font-size:11px;font-weight:700">COLOR PALABRA AMARILLA</label><div style="display:flex;gap:10px;align-items:center"><input type="color" id="accentColor" value="#f59e0b" style="width:56px;height:42px;border-radius:10px;padding:4px" oninput="updateLive()"><input id="accentHex" class="input" oninput="syncColorText(this.value)"><div id="colorDemo" style="padding:8px 12px;border-radius:999px;background:#0a0a0a;color:white;font-weight:800;font-size:12px">KIGO <span id="colorDemoAccent" style="color:#f59e0b">SHOWROOM</span></div></div></div>
@@ -70,7 +70,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="font-size:11px;color:#16a34a;display:none" id="savedMsg">✓ Guardado en la nube</div>
 </div></div>
 <div class="form" id="panelPlat" style="display:none">
-<h4 style="font-size:12px;color:#6b7280">PLATAFORMAS - AGREGAR Y EDITAR (NUBE)</h4>
+<h4 style="font-size:12px;color:#6b7280">PLATAFORMAS - AGREGAR Y EDITAR</h4>
 <div class="platSubTabs"><button class="platSubTab active" id="platTabAdd" onclick="setPlatMode('add')">➕ Agregar producto</button><button class="platSubTab" id="platTabEdit" onclick="setPlatMode('edit')">✎ Editar productos</button></div>
 <div id="platAddBox" style="background:white;border:1px solid #eaeaec;border-radius:14px;padding:14px;display:grid;gap:12px">
 <label style="font-size:11px;font-weight:700">NOMBRE PRODUCTO</label><input id="aName" class="input" placeholder="Ej: KIGO UBER CLONE">
@@ -85,7 +85,7 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div style="font-size:11px;color:#16a34a;display:none" id="platMsg">✓ Guardado</div>
 </div>
 <div id="platEditBox" style="display:none">
-<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">LISTA DE PRODUCTOS - NUBE - TOCA PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div><div id="emptyMsg" style="display:none;text-align:center;padding:20px;color:#6b7280;font-size:13px">No hay productos aún.</div></div>
+<div style="background:#fcfcfd;border:1px solid #eaeaec;border-radius:14px;padding:12px;margin-bottom:12px"><div style="font-size:11px;font-weight:700;margin-bottom:8px">LISTA DE PRODUCTOS - TOCA PARA EDITAR</div><div id="adminList" style="display:grid;gap:10px"></div><div id="emptyMsg" style="display:none;text-align:center;padding:20px;color:#6b7280;font-size:13px">No hay productos aún.</div></div>
 <div id="editFormBox" style="background:white;border:1px solid #111;border-radius:14px;padding:14px;display:none">
 <h4 style="font-size:12px;margin-bottom:10px">EDITANDO: <span id="editNameLabel"></span></h4>
 <label style="font-size:11px;font-weight:600">NOMBRE</label><input id="eName" class="input">
@@ -102,31 +102,40 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 <div class="form" id="panelAcc" style="display:none"><h4 style="font-size:12px;color:#6b7280">ACCESO - SOLO CON 0831 SE VEN ACTUALIZACIONES</h4><div style="border:1px solid #eaeaec;border-radius:12px;padding:14px;background:#fcfcfd;display:grid;gap:10px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="newUser" class="input" placeholder="Nuevo usuario"><input id="newPass" class="input" placeholder="Nueva contraseña"></div><button class="btn btn-view" style="width:100%" onclick="updateCreds()">Actualizar acceso</button><div style="font-size:11px;color:#6b7280">Actual: <span id="currentCreds"></span></div></div></div>
 </div></div>
 <script>
-const firebaseConfig = { databaseURL: "https://kigo-xpress-7d2e1-default-rtdb.firebaseio.com" };
+// --- SOLO ESTA PARTE ESTA CORREGIDA - FIREBASE REALTIME DATABASE ---
+const firebaseConfig = {
+  databaseURL: "https://kigo-xpress-7d2e1-default-rtdb.firebaseio.com"
+};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
 let platforms = [];
-let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2_cache')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
+let siteConfig = {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
 let creds = {user:"admin", pass:"0831"};
 let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[], editGallery=[];
 
-db.ref('kigo_site_v2').on('value', (snap)=>{
-  const data = snap.val();
-  if(data){ siteConfig = data; localStorage.setItem('kigo_site_v2_cache', JSON.stringify(data)); applySite(); }
-});
-
+// LEER DE LA NUBE - YA NO SE BORRA
 db.ref('kigo_showroom_platforms').on('value', (snap)=>{
   const data = snap.val();
-  if(data){ platforms = Object.entries(data).map(([key,val])=>({firebaseKey:key,...val})); localStorage.setItem('kigo_platforms_cache', JSON.stringify(platforms)); }
-  else { let cache = JSON.parse(localStorage.getItem('kigo_platforms_cache')||'[]'); if(cache.length>0){ platforms = cache; } else { platforms = []; } }
+  if(data){
+    platforms = Object.entries(data).map(([key,val])=>({firebaseKey:key,...val}));
+  } else {
+    platforms = [];
+  }
   renderFilters(); renderGrid(); renderAdminList();
-}, (error)=>{ alert("Revisa reglas Realtime true true - Error: "+error.message); });
+});
 
-function saveToCloud(){ db.ref('kigo_site_v2').set(siteConfig).then(()=>{ localStorage.setItem('kigo_site_v2_cache', JSON.stringify(siteConfig)); }); }
+db.ref('kigo_site_v2').on('value', (snap)=>{
+  const data = snap.val();
+  if(data){ siteConfig = data; applySite(); }
+});
+
+function saveToCloud(){ db.ref('kigo_site_v2').set(siteConfig); }
 function applySite(){
  document.documentElement.style.setProperty('--accent', siteConfig.accent);
  let logoHtml = siteConfig.logo? `<img src="${siteConfig.logo}">` : '';
- const siteLogo = document.getElementById('siteLogo'); if(siteLogo) siteLogo.innerHTML = logoHtml + siteConfig.name;
+ const siteLogo = document.getElementById('siteLogo');
+ if(siteLogo) siteLogo.innerHTML = logoHtml + siteConfig.name;
  document.getElementById('logoPreview').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
  document.getElementById('loginLogo').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
  document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
@@ -153,7 +162,7 @@ function updateLive(){
  document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
  document.getElementById('search').placeholder=siteConfig.search; document.getElementById('footerText').innerText=siteConfig.footer;
 }
-function saveLive(){ saveToCloud(); let m=document.getElementById('savedMsg'); if(m){ m.innerText='✓ Guardado en la nube'; m.style.display='block'; setTimeout(()=>m.style.display='none',1500);} }
+function saveLive(){ saveToCloud(); let m=document.getElementById('savedMsg'); if(m){ m.style.display='block'; setTimeout(()=>m.style.display='none',1500);} }
 function resetSite(){ if(confirm('Resetear?')){ siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas.", search:"Buscar...", footer:"Plataformas profesionales • 2026", logo:"", accent:"#f59e0b"}; applySite(); saveToCloud(); } }
 function switchTab(t){
  document.querySelectorAll('.adminTab').forEach(b=>b.classList.remove('active'));
@@ -182,7 +191,7 @@ function renderGrid(){
  renderMost();
 }
 function renderMost(){
- if(platforms.length===0){ document.getElementById('mostSlider').innerHTML=`<div style="padding:20px;color:#6b7280;font-size:13px">Aún no hay productos marcados</div>`; return; }
+ if(platforms.length===0){ document.getElementById('mostSlider').innerHTML=`<div style="padding:20px;color:#6b7280;font-size:13px">Aún no hay productos marcados como más usados</div>`; return; }
  document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView('${p.firebaseKey}')"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${(p.desc||'').substring(0,60)}...</p><div class="miniPrice">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120);
 }
 function initMostZoom(){ const s=document.getElementById('mostSlider'); if(!s) return; function up(){ const r=s.getBoundingClientRect(); const c=r.left+r.width/2; let cl=null,mn=Infinity; s.querySelectorAll('.miniCard').forEach(card=>{ const rr=card.getBoundingClientRect(); const cc=rr.left+rr.width/2; const d=Math.abs(c-cc); if(d<mn){mn=d;cl=card;}}); s.querySelectorAll('.miniCard').forEach(x=>x.classList.remove('active')); if(cl) cl.classList.add('active'); } s.addEventListener('scroll',up,{passive:true}); up(); s.scrollLeft=20; }
@@ -222,11 +231,11 @@ function savePlatform(){
  let name=document.getElementById('aName').value.trim(); if(!name){ alert('Pon nombre'); return; }
  let img=document.getElementById('aImg').value || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
  let gallery = tempGallery.length>=1? [...tempGallery] : [img,img,img,img,img,img,img]; while(gallery.length<7) gallery.push(img);
- let obj={ cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked, created: Date.now() };
+ let obj={ cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked };
  db.ref('kigo_showroom_platforms').push(obj).then(()=>{
    let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Guardado en la nube - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
    clearForm();
- }).catch(e=>{ alert("Error al guardar en nube: "+e.message); });
+ });
 }
 function renderAdminList(){
  let listEl=document.getElementById('adminList'); let emptyEl=document.getElementById('emptyMsg');
