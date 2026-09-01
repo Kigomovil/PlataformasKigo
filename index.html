@@ -101,3 +101,172 @@ footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;back
 </div>
 <div class="form" id="panelAcc" style="display:none"><h4 style="font-size:12px;color:#6b7280">ACCESO - SOLO CON 0831 SE VEN ACTUALIZACIONES</h4><div style="border:1px solid #eaeaec;border-radius:12px;padding:14px;background:#fcfcfd;display:grid;gap:10px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><input id="newUser" class="input" placeholder="Nuevo usuario"><input id="newPass" class="input" placeholder="Nueva contraseña"></div><button class="btn btn-view" style="width:100%" onclick="updateCreds()">Actualizar acceso</button><div style="font-size:11px;color:#6b7280">Actual: <span id="currentCreds"></span></div></div></div>
 </div></div>
+<script>
+const firebaseConfig = { databaseURL: "https://kigo-xpress-7d2e1-default-rtdb.firebaseio.com" };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+let platforms = [];
+let siteConfig = JSON.parse(localStorage.getItem('kigo_site_v2_cache')||'null') || {name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas para ver en vivo.", search:"Buscar: hotel, recargas, restaurante, delivery, uber...", footer:"Plataformas profesionales • Dolores Hidalgo • 2026", logo:"", accent:"#f59e0b"};
+let creds = {user:"admin", pass:"0831"};
+let isLogged=false, filtro='todo', editingId=null, currentGallery=[], galleryIndex=0, tempGallery=[], editGallery=[];
+
+db.ref('kigo_site_v2').on('value', (snap)=>{
+  const data = snap.val();
+  if(data){ siteConfig = data; localStorage.setItem('kigo_site_v2_cache', JSON.stringify(data)); applySite(); }
+});
+
+db.ref('kigo_showroom_platforms').on('value', (snap)=>{
+  const data = snap.val();
+  if(data){ platforms = Object.entries(data).map(([key,val])=>({firebaseKey:key,...val})); localStorage.setItem('kigo_platforms_cache', JSON.stringify(platforms)); }
+  else { let cache = JSON.parse(localStorage.getItem('kigo_platforms_cache')||'[]'); if(cache.length>0){ platforms = cache; } else { platforms = []; } }
+  renderFilters(); renderGrid(); renderAdminList();
+}, (error)=>{ alert("Revisa reglas Realtime true true - Error: "+error.message); });
+
+function saveToCloud(){ db.ref('kigo_site_v2').set(siteConfig).then(()=>{ localStorage.setItem('kigo_site_v2_cache', JSON.stringify(siteConfig)); }); }
+function applySite(){
+ document.documentElement.style.setProperty('--accent', siteConfig.accent);
+ let logoHtml = siteConfig.logo? `<img src="${siteConfig.logo}">` : '';
+ const siteLogo = document.getElementById('siteLogo'); if(siteLogo) siteLogo.innerHTML = logoHtml + siteConfig.name;
+ document.getElementById('logoPreview').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
+ document.getElementById('loginLogo').innerHTML = siteConfig.logo? `<img src="${siteConfig.logo}" style="width:100%;height:100%;object-fit:cover">` : 'K';
+ document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
+ document.getElementById('search').placeholder=siteConfig.search; document.getElementById('footerText').innerText=siteConfig.footer;
+ document.getElementById('siteNameInput').value=siteConfig.name.replace(/<[^>]*>/g,'').trim();
+ document.getElementById('heroTitleInput').value=siteConfig.hero; document.getElementById('heroSubInput').value=siteConfig.sub;
+ document.getElementById('searchPlaceInput').value=siteConfig.search; document.getElementById('footerInput').value=siteConfig.footer;
+ document.getElementById('accentColor').value=siteConfig.accent; document.getElementById('accentHex').value=siteConfig.accent;
+ const demo = document.getElementById('colorDemoAccent'); if(demo) demo.style.color=siteConfig.accent;
+ document.getElementById('currentCreds').innerText=creds.user+' / '+creds.pass;
+}
+function uploadLogo(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ siteConfig.logo=e.target.result; applySite(); saveToCloud(); }; r.readAsDataURL(input.files[0]); } }
+function removeLogo(){ siteConfig.logo=""; applySite(); saveToCloud(); }
+function syncColorText(v){ document.getElementById('accentColor').value=v; updateLive(); }
+function updateLive(){
+ let raw=document.getElementById('siteNameInput').value;
+ siteConfig.name=raw.includes('<')? raw : raw.split(' ')[0]+' <i>'+(raw.split(' ').slice(1).join(' ')||'SHOWROOM')+'</i>';
+ siteConfig.hero=document.getElementById('heroTitleInput').value; siteConfig.sub=document.getElementById('heroSubInput').value;
+ siteConfig.search=document.getElementById('searchPlaceInput').value; siteConfig.footer=document.getElementById('footerInput').value;
+ siteConfig.accent=document.getElementById('accentColor').value;
+ document.documentElement.style.setProperty('--accent', siteConfig.accent);
+ document.getElementById('siteLogo').innerHTML=(siteConfig.logo?`<img src="${siteConfig.logo}">`:'')+siteConfig.name;
+ const demo = document.getElementById('colorDemoAccent'); if(demo) demo.style.color=siteConfig.accent;
+ document.getElementById('heroTitle').innerText=siteConfig.hero; document.getElementById('heroSub').innerText=siteConfig.sub;
+ document.getElementById('search').placeholder=siteConfig.search; document.getElementById('footerText').innerText=siteConfig.footer;
+}
+function saveLive(){ saveToCloud(); let m=document.getElementById('savedMsg'); if(m){ m.innerText='✓ Guardado en la nube'; m.style.display='block'; setTimeout(()=>m.style.display='none',1500);} }
+function resetSite(){ if(confirm('Resetear?')){ siteConfig={name:"KIGO <i>SHOWROOM</i>", hero:"Explora. Prueba. Cotiza.", sub:"Todas nuestras plataformas listas.", search:"Buscar...", footer:"Plataformas profesionales • 2026", logo:"", accent:"#f59e0b"}; applySite(); saveToCloud(); } }
+function switchTab(t){
+ document.querySelectorAll('.adminTab').forEach(b=>b.classList.remove('active'));
+ document.getElementById('panelMod').style.display='none'; document.getElementById('panelPlat').style.display='none'; document.getElementById('panelAcc').style.display='none';
+ if(t==='mod'){ document.getElementById('tabMod').classList.add('active'); document.getElementById('panelMod').style.display='grid'; }
+ if(t==='plat'){ document.getElementById('tabPlat').classList.add('active'); document.getElementById('panelPlat').style.display='grid'; setPlatMode('add'); }
+ if(t==='acc'){ document.getElementById('tabAcc').classList.add('active'); document.getElementById('panelAcc').style.display='grid'; }
+}
+function setPlatMode(mode){
+ document.getElementById('platTabAdd').classList.toggle('active', mode==='add');
+ document.getElementById('platTabEdit').classList.toggle('active', mode==='edit');
+ document.getElementById('platAddBox').style.display= mode==='add'? 'grid' : 'none';
+ document.getElementById('platEditBox').style.display= mode==='edit'? 'block' : 'none';
+ if(mode==='edit'){ renderAdminList(); document.getElementById('editFormBox').style.display='none'; }
+ if(mode==='add'){ clearForm(); }
+}
+function catLabel(c){ if(c==='todo') return 'TODO'; return (c||'').toUpperCase(); }
+function payLabel(t){ if(t==='mensual') return 'mensualidad'; if(t==='anual') return 'anual'; return 'pago único'; }
+function renderFilters(){ let all=['todo',...new Set(platforms.map(p=>p.cat))]; if(all.length===1) all=['todo']; document.getElementById('filters').innerHTML=all.map(c=>`<div class="chip ${filtro===c?'active':''}" onclick="setFilter('${c}')">${catLabel(c)}</div>`).join(''); }
+function setFilter(c){ filtro=c; renderFilters(); renderGrid(); }
+function renderGrid(){
+ let q=document.getElementById('search').value.toLowerCase();
+ let list=platforms.filter(p=> (filtro==='todo'||p.cat===filtro) && (p.nombre.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
+ if(list.length===0){ document.getElementById('grid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b7280"><div style="font-size:48px">📦</div><div style="font-weight:700;color:#111;margin-top:8px">No hay productos aún</div><div style="font-size:13px;margin-top:6px">Admin → Plataformas → Agregar producto</div></div>`; }
+ else { document.getElementById('grid').innerHTML=list.map(p=>`<div class="card"><div class="thumb"><img src="${p.img}"><div class="tag">${catLabel(p.cat)}</div></div><div class="content"><h3>${p.nombre}</h3><p>${p.desc}</p><div class="price">${p.price} • ${payLabel(p.payType)}</div><div class="meta">${(p.tags||[]).map(t=>`<i>${t}</i>`).join('')}</div><div class="actions"><button class="btn btn-view" onclick="openView('${p.firebaseKey}')">Ver</button><button class="btn btn-quote" onclick="openQuote('${p.firebaseKey}')">Cotizar</button></div></div></div>`).join(''); }
+ renderMost();
+}
+function renderMost(){
+ if(platforms.length===0){ document.getElementById('mostSlider').innerHTML=`<div style="padding:20px;color:#6b7280;font-size:13px">Aún no hay productos marcados</div>`; return; }
+ document.getElementById('mostSlider').innerHTML=platforms.map(p=>`<div class="miniCard" onclick="openView('${p.firebaseKey}')"><div class="miniThumb"><img src="${p.img}"></div><div class="miniContent"><h4>${p.nombre}</h4><p>${(p.desc||'').substring(0,60)}...</p><div class="miniPrice">${p.price}</div></div></div>`).join(''); setTimeout(initMostZoom,120);
+}
+function initMostZoom(){ const s=document.getElementById('mostSlider'); if(!s) return; function up(){ const r=s.getBoundingClientRect(); const c=r.left+r.width/2; let cl=null,mn=Infinity; s.querySelectorAll('.miniCard').forEach(card=>{ const rr=card.getBoundingClientRect(); const cc=rr.left+rr.width/2; const d=Math.abs(c-cc); if(d<mn){mn=d;cl=card;}}); s.querySelectorAll('.miniCard').forEach(x=>x.classList.remove('active')); if(cl) cl.classList.add('active'); } s.addEventListener('scroll',up,{passive:true}); up(); s.scrollLeft=20; }
+</script>
+<script>
+function openView(fbKey){
+ let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return;
+ currentGallery=p.gallery||[p.img,p.img,p.img,p.img,p.img,p.img,p.img]; galleryIndex=0;
+ document.getElementById('vTitle').innerText=p.nombre; document.getElementById('vName').innerText=p.nombre; document.getElementById('vCat').innerText=catLabel(p.cat); document.getElementById('vCat2').innerText=catLabel(p.cat);
+ document.getElementById('vDesc').innerText=p.desc; document.getElementById('vPrice').innerText=p.price; document.getElementById('vPaySub').innerText=payLabel(p.payType);
+ document.getElementById('vTags').innerHTML=(p.tags||[]).map(t=>`<i style="font-style:normal;font-size:11px;background:#f8f8f9;border:1px solid #ececef;padding:6px 10px;border-radius:999px">${t}</i>`).join('');
+ document.getElementById('vGallery').innerHTML=currentGallery.map(s=>`<img class="galleryImg" src="${s}">`).join('');
+ document.getElementById('vDots').innerHTML=currentGallery.map((_,i)=>`<div class="vDot ${i===0?'active':''}"></div>`).join('');
+ document.getElementById('vCounter').innerText=`1 / ${currentGallery.length}`;
+ document.getElementById('vFrame').src=p.url; document.getElementById('vGo').onclick=()=>window.open(p.url,'_blank'); document.getElementById('vQuote').onclick=()=>openQuote(p.firebaseKey);
+ document.getElementById('viewModal').style.display='flex';
+ let g=document.getElementById('vGallery'); g.onscroll=()=>{ let idx=Math.round(g.scrollLeft/g.clientWidth); if(idx!==galleryIndex){ galleryIndex=idx; updateGalleryUI(); } };
+}
+function updateGalleryUI(){ document.querySelectorAll('.vDot').forEach((d,i)=>d.classList.toggle('active',i===galleryIndex)); document.getElementById('vCounter').innerText=`${galleryIndex+1} / ${currentGallery.length}`; }
+function galleryPrev(){ if(galleryIndex>0){ galleryIndex--; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
+function galleryNext(){ if(galleryIndex<currentGallery.length-1){ galleryIndex++; document.getElementById('vGallery').scrollTo({left:galleryIndex*document.getElementById('vGallery').clientWidth,behavior:'smooth'}); updateGalleryUI(); } }
+function closeView(){ document.getElementById('viewModal').style.display='none'; document.getElementById('vFrame').src=''; }
+function openQuote(fbKey){ let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return; window.open(`https://wa.me/521000000000?text=${encodeURIComponent('Hola KIGO, quiero cotizar: '+p.nombre)}`,'_blank'); }
+function openLogin(){ if(isLogged){ openAdmin(); } else { document.getElementById('loginModal').style.display='flex'; } }
+function closeLogin(){ document.getElementById('loginModal').style.display='none'; }
+function doLogin(){ let u=document.getElementById('loginUser').value,pw=document.getElementById('loginPass').value; if(u===creds.user&&pw===creds.pass){ isLogged=true; closeLogin(); openAdmin(); } else alert('Datos incorrectos - usa admin / 0831'); }
+function logout(){ isLogged=false; closeAdmin(); }
+function openAdmin(){ if(!isLogged) return openLogin(); document.getElementById('adminModal').style.display='flex'; renderAdminList(); applySite(); switchTab('mod'); }
+function closeAdmin(){ document.getElementById('adminModal').style.display='none'; }
+function updateCreds(){ let nu=document.getElementById('newUser').value,np=document.getElementById('newPass').value; if(nu) creds.user=nu; if(np) creds.pass=np; applySite(); alert('Actualizado: '+creds.user+' / '+creds.pass); }
+function uploadPlatImg(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('aImg').value=e.target.result; let prev=document.getElementById('aImgPreview'); prev.src=e.target.result; prev.style.display='block'; }; r.readAsDataURL(input.files[0]); } }
+function uploadGallery(input){
+ if(!input.files) return; let files=Array.from(input.files).slice(0,7); tempGallery=[]; let preview=document.getElementById('aGalleryPreview'); preview.innerHTML=''; document.getElementById('galleryCount').innerText=files.length+' / 7 fotos'; let loaded=0; files.forEach(file=>{ let r=new FileReader(); r.onload=e=>{ tempGallery.push(e.target.result); loaded++; let img=document.createElement('img'); img.src=e.target.result; img.style.width='56px'; img.style.height='56px'; img.style.borderRadius='10px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; preview.appendChild(img); if(loaded===files.length){ document.getElementById('galleryCount').innerText=tempGallery.length+' / 7 fotos listas ✓'; } }; r.readAsDataURL(file); });
+}
+function clearForm(){ ['aName','aCat','aDesc','aUrl','aPrice','aTags','aImg'].forEach(i=>{ let el=document.getElementById(i); if(el) el.value=''; }); document.getElementById('aImgPreview').style.display='none'; document.getElementById('aGalleryPreview').innerHTML=''; document.getElementById('galleryCount').innerText='0 / 7 fotos'; tempGallery=[]; document.getElementById('aMost').checked=true; document.getElementById('aPayType').value='unico'; }
+function savePlatform(){
+ let name=document.getElementById('aName').value.trim(); if(!name){ alert('Pon nombre'); return; }
+ let img=document.getElementById('aImg').value || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800';
+ let gallery = tempGallery.length>=1? [...tempGallery] : [img,img,img,img,img,img,img]; while(gallery.length<7) gallery.push(img);
+ let obj={ cat:document.getElementById('aCat').value.toLowerCase()||'general', nombre:name, desc:document.getElementById('aDesc').value, img:img, gallery:gallery, url:document.getElementById('aUrl').value||'https://example.com', price:document.getElementById('aPrice').value||'$0', payType:document.getElementById('aPayType').value, tags:document.getElementById('aTags').value.split(',').map(s=>s.trim()).filter(Boolean), top:document.getElementById('aMost').checked, created: Date.now() };
+ db.ref('kigo_showroom_platforms').push(obj).then(()=>{
+   let m=document.getElementById('platMsg'); m.style.display='block'; m.innerText='✓ Guardado en la nube - '+obj.nombre; setTimeout(()=>m.style.display='none',2000);
+   clearForm();
+ }).catch(e=>{ alert("Error al guardar en nube: "+e.message); });
+}
+function renderAdminList(){
+ let listEl=document.getElementById('adminList'); let emptyEl=document.getElementById('emptyMsg');
+ if(platforms.length===0){ listEl.innerHTML=''; if(emptyEl) emptyEl.style.display='block'; return; }
+ if(emptyEl) emptyEl.style.display='none';
+ listEl.innerHTML=platforms.map(p=>`<div style="display:flex;gap:12px;align-items:center;border:1px solid #eaeaec;border-radius:14px;padding:12px;background:white;cursor:pointer" onclick="selectForEdit('${p.firebaseKey}')"><img src="${p.img}" style="width:48px;height:48px;border-radius:10px;object-fit:cover"><div style="flex:1;min-width:0"><b style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</b><span style="font-size:11px;color:#6b7280">${catLabel(p.cat)} • ${p.price} • ${(p.gallery||[]).length} fotos</span></div><div style="display:flex;gap:6px"><button class="btn btn-view" style="height:36px;padding:0 12px;font-size:11px" onclick="event.stopPropagation();selectForEdit('${p.firebaseKey}')">✎ Editar</button><button class="btn btn-quote" style="height:36px;padding:0 12px;background:#dc2626;border-color:#dc2626;font-size:11px" onclick="event.stopPropagation();delP('${p.firebaseKey}')">Eliminar</button></div></div>`).join('');
+}
+function selectForEdit(fbKey){
+ let p=platforms.find(x=>x.firebaseKey===fbKey); if(!p) return; editingId=fbKey;
+ document.getElementById('editNameLabel').innerText=p.nombre;
+ document.getElementById('eName').value=p.nombre; document.getElementById('eCat').value=p.cat; document.getElementById('eDesc').value=p.desc;
+ document.getElementById('eUrl').value=p.url; document.getElementById('ePrice').value=p.price; document.getElementById('ePayType').value=p.payType||'unico';
+ document.getElementById('eTags').value=(p.tags||[]).join(', '); document.getElementById('eImg').value=p.img; document.getElementById('eImgPreview').src=p.img;
+ editGallery=[...p.gallery]; let gp=document.getElementById('eGalleryPreview'); gp.innerHTML=''; editGallery.forEach(src=>{ let img=document.createElement('img'); img.src=src; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; img.style.border='1px solid #eaeaec'; gp.appendChild(img); });
+ document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos actuales';
+ document.getElementById('editFormBox').style.display='block'; document.getElementById('editFormBox').scrollIntoView({behavior:'smooth'});
+}
+function uploadEditImg(input){ if(input.files&&input.files[0]){ let r=new FileReader(); r.onload=e=>{ document.getElementById('eImg').value=e.target.result; document.getElementById('eImgPreview').src=e.target.result; }; r.readAsDataURL(input.files[0]); } }
+function uploadEditGallery(input){ if(!input.files) return; let files=Array.from(input.files).slice(0,7); editGallery=[]; let preview=document.getElementById('eGalleryPreview'); preview.innerHTML=''; let loaded=0; files.forEach(file=>{ let r=new FileReader(); r.onload=e=>{ editGallery.push(e.target.result); loaded++; let img=document.createElement('img'); img.src=e.target.result; img.style.width='52px'; img.style.height='52px'; img.style.borderRadius='8px'; img.style.objectFit='cover'; preview.appendChild(img); if(loaded===files.length){ document.getElementById('eGalleryCount').innerText=editGallery.length+' / 7 fotos nuevas ✓'; } }; r.readAsDataURL(file); }); }
+function saveEdit(){
+ if(!editingId){ alert('Selecciona un producto'); return; }
+ let p=platforms.find(x=>x.firebaseKey===editingId); if(!p) return;
+ let updated = {
+   nombre:document.getElementById('eName').value,
+   cat:document.getElementById('eCat').value.toLowerCase(),
+   desc:document.getElementById('eDesc').value,
+   url:document.getElementById('eUrl').value,
+   price:document.getElementById('ePrice').value,
+   payType:document.getElementById('ePayType').value,
+   tags:document.getElementById('eTags').value.split(',').map(s=>s.trim()).filter(Boolean),
+   img:document.getElementById('eImg').value||p.img,
+   gallery: editGallery.length>=1? [...editGallery] : p.gallery
+ };
+ while(updated.gallery.length<7) updated.gallery.push(updated.img);
+ db.ref('kigo_showroom_platforms/' + editingId).update(updated).then(()=>{ alert('✓ Guardado en la nube: '+updated.nombre); document.getElementById('editFormBox').style.display='none'; });
+}
+function cancelEdit(){ document.getElementById('editFormBox').style.display='none'; editingId=null; }
+function delP(fbKey){ if(confirm('¿Eliminar de la nube?')){ db.ref('kigo_showroom_platforms/' + fbKey).remove(); if(editingId===fbKey) cancelEdit(); } }
+document.getElementById('search').addEventListener('input',renderGrid);
+applySite(); renderFilters(); renderGrid();
+</script>
+</body>
+</html>
